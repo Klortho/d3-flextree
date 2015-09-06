@@ -2,72 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <style>
-      svg { border: 1px solid black; }
-      .node circle {
-        fill: #fff;
-        stroke: steelblue;
-        stroke-width: 1.5px;
-      }
-
-      .node {
-        font: 10px sans-serif;
-      }
-
-      .link {
-        fill: none;
-        stroke: #ccc;
-        stroke-width: 1.5px;
-      }
-    </style>
-    <script src="../d3/d3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="flextree-test.css">
+    <script src="../d3/d3.js"></script>
+    <script src='flextree.js'></script>
   </head>
   <body>
-    <script>
-      var diameter = 1000;
-
-      var tree = d3.layout.tree()
-          .size([diameter, diameter])
-          .separation(function(a, b) { 
-            return (a.parent == b.parent ? 1 : 2) / a.depth; 
-          });
-
-      var diagonal = d3.svg.diagonal()
-          .projection(function(d) { return [d.y, d.x]; });
-
-      var svg = d3.select("body").append("svg")
-          .attr("width", diameter)
-          .attr("height", diameter)
-        .append("g")
-      ;
-
-      d3.json("flare.json", function(error, root) {
-        if (error) throw error;
-
-        var nodes = tree.nodes(root),
-            links = tree.links(nodes);
-
-        var link = svg.selectAll(".link")
-            .data(links)
-          .enter().append("path")
-            .attr("class", "link")
-            .attr("d", diagonal);
-
-        var node = svg.selectAll(".node")
-            .data(nodes)
-          .enter().append("g")
-            .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-
-        node.append("circle")
-            .attr("r", 4.5);
-
-        node.append("text")
-            .attr("dy", ".31em")
-            .attr("text-anchor", "start")
-            .attr("transform", "translate(8)")
-            .text(function(d) { return d.name; });
-      });
-    </script>
+    <script src='flextree-test.js'></script>
   </body>
 </html>

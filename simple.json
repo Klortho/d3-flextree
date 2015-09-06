@@ -1,0 +1,47 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "name": "long-long-long-long",
+      "children": [
+        {
+          "name": "long-long-long-long",
+          "children": [
+            { "name": "leaf" },
+            { "name": "leaf" },
+            { "name": "leaf" },
+            { "name": "leaf" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "short",
+      "children": [
+        {
+          "name": "short",
+          "children": [
+            { "name": "leaf" },
+            { "name": "leaf" },
+            { "name": "leaf" },
+            { "name": "leaf" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "long-long-long-long",
+      "children": [
+        {
+          "name": "long-long-long-long",
+          "children": [
+            { "name": "leaf" },
+            { "name": "leaf" },
+            { "name": "leaf" },
+            { "name": "leaf" }
+          ]
+        }
+      ]
+    }
+  ]
+}
