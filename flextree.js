@@ -8,10 +8,12 @@ d3.layout.flextree = function() {
   var size = [1, 1];     // width, height; null if we're using nodeSize
   var nodeSize = null;
 
+  var nodes;
+
 
   function flextree(d, i) {
     // This produces the array of all of the nodes in the tree
-    var nodes = hierarchy.call(this, d, i);
+    //var nodes = hierarchy.call(this, d, i);
 
     // root_ is the root of the tree. By convention, the real tree nodes that
     // the user passed in are referred to by "_", and the wrapped nodes by
@@ -20,6 +22,21 @@ d3.layout.flextree = function() {
 
     // root is a wrapper around the root node
     var root = wrapTree(root_);
+
+    // Walk zero sets the y-coordinates, which depend only on the width of
+    // all the preceding nodes. We'll set x_size and y_size on every node, as well
+    if (nodeSize) {
+      d3_layout_hierarchyVisitBefore(root_, function(n) {
+        var np = n.parent;
+        if (np) {
+          var ns = typeof nodeSize == "function" ? nodeSize(np) : nodeSize;
+          n.y = np.y + ns[1];
+        }
+        else {
+          n.y = 0;
+        }
+      });
+    }
 
     // Compute the layout using Buchheim et al.'s algorithm.
     d3_layout_hierarchyVisitAfter(root, firstWalk);
@@ -32,7 +49,7 @@ d3.layout.flextree = function() {
       d3_layout_hierarchyVisitBefore(root_, function(node) {
         var ns = typeof nodeSize == "function" ? nodeSize(node) : nodeSize;
         node.x *= ns[0];
-        node.y = node.depth * ns[1];
+        //node.y = node.depth * ns[1];
       });
     }
 
@@ -57,7 +74,6 @@ d3.layout.flextree = function() {
       });
     }
 
-
     return nodes;
   }
 
@@ -69,52 +85,58 @@ d3.layout.flextree = function() {
   // this wraps the *children* of that node, and then pushes the child's wrapper
   // onto the queue. Finally, this returns the wrapped version of root, which is
   // the child of the fake wrapper of the non-existent parent.
+
+  // FIXME: I changed the names of the wrapper members from single-character to
+  // more meaningful names. I guess I should change them back, after everything 
+  // is working, for efficiency? Or, does the minifier do that?
+
   function wrapTree(root_) {
-    var root = {
+    var fake_root_parent = {
       A: null, 
-      children: [root_]
+      _: { children: [root_] },
     };
 
-    var queue = [root];
-    var node1;
-    while ((node1 = queue.pop()) != null) {
-      var children = node1.children;
-      var child;
-      var i = 0;
-      var n = children.length;
-      for (i = 0; i < n; ++i) {
-        children[i] = child = {
-          _: children[i], // source node
-          parent: node1,
-          children: (child = children[i].children) && child.slice() || [],
-          A: null,         // default ancestor
+    var queue = [fake_root_parent];
+    var node;
+    while ((node = queue.pop()) != null) {
+      var children_ = (node._.children || []).slice();
+      var children = node.children = [];
+      var n = children_.length;
+      for (var child_num = 0; child_num < n; ++child_num) {
+        var child_ = children_[child_num];
+        // wrap the child
+        var child = {
+          _: child_,    // source node
+          parent: node,
+          A: null,            // default ancestor
           ancestor: null,
           prelim: 0,
           modifier: 0,
           change: 0,
           shift: 0,
           thread: null,
-          i: i,
+          child_num: child_num,
         };
+        children.push(child);
+        // QUESTION: why does the ancestor point to the self-same element?
         child.ancestor = child;
         queue.push(child);
       }
     }
 
-    return root.children[0];
+    return fake_root_parent.children[0];
   }
 
   // FIRST WALK
   // Computes a preliminary x-coordinate, and the final y-coordinate, for v. 
-  // Before that, FIRST WALK is
-  // applied recursively to the children of v, as well as the function
+  // This is applied recursively to the children of v, as well as the function
   // APPORTION. After spacing out the children by calling EXECUTE SHIFTS, the
   // node v is placed to the midpoint of its outermost children.
   function firstWalk(v) {
     var children = v.children;
     var siblings = v.parent.children;
 
-    var left_sibling = v.i ? siblings[v.i - 1] : null;
+    var left_sibling = v.child_num ? siblings[v.child_num - 1] : null;
 
     if (children.length) {
       d3_layout_treeShift(v);
@@ -128,10 +150,11 @@ d3.layout.flextree = function() {
       }
     } 
     else if (left_sibling) {
-      // It's a leaf node.
-      // If it has a left sibling
+      // It's a leaf node, and it has a left sibling
       v.prelim = left_sibling.prelim + separation(v._, left_sibling._);
     }
+    // If it's a leaf node with no left sibling, prelim and modifier default to 0.
+
     v.parent.A = apportion(v, left_sibling, v.parent.A || siblings[0]);
   }
 
@@ -214,6 +237,10 @@ d3.layout.flextree = function() {
     return flextree;
   };
 
+  flextree.nodeList = function(d, i) {
+    return nodes = hierarchy.call(this, d, i);
+  }
+
   return d3_layout_hierarchyRebind(flextree, hierarchy);
 };
 
@@ -246,7 +273,7 @@ function d3_layout_treeRight(v) {
 // Shifts the current subtree rooted at w+. This is done by increasing
 // prelim(w+) and mod(w+) by shift.
 function d3_layout_treeMove(wm, wp, shift) {
-  var change = shift / (wp.i - wm.i);
+  var change = shift / (wp.child_num - wm.child_num);
   wp.change -= change;
   wp.shift += shift;
   wm.change += change;

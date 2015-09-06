@@ -13,7 +13,8 @@
     // Two ways to set the node size, these are mutually exclusive
     //tree_size: [500, 500],
     tree_nodeSize: function(d) {
-      return [30, 100];
+      console.log("tree_nodeSize, %o, d.width = " + d.width, d);
+      return [30, d.width + 40];
     }
   };
 
@@ -31,7 +32,7 @@
           var s = d.source;
           return {
               x: s.x, 
-              y: s.y + (s.width ? s.width : 0) + 18,
+              y: s.y + (s.width ? s.width : 0),
           };
       })
       .projection(function(d) { 
@@ -52,16 +53,20 @@
   d3.json(config.data_set, function(error, root) {
     if (error) throw error;
 
-    var nodes = flextree.nodes(root);
-    var links = flextree.links(nodes);
+    // I had to create a new top-level method, nodeList, to first create the node list
+    // hierarchy, before doing any of the layout. This will let me create the
+    // text elements, which then give me the horizontal sizes of the nodes,
+    // which are needed during layout.
+    var node_list = flextree.nodeList(root);
+
 
     var node = svg.selectAll(".node")
-        .data(nodes, function(d) { 
+        .data(node_list, function(d) { 
           return d.id || (d.id = ++last_id); 
         })
       .enter().append("g")
         .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+    ;
 
     var text_elements = node.append("text")
         .attr({
@@ -73,26 +78,34 @@
 
     text_elements.attr({
       "dx": function(d) { 
-        var the_text = document.getElementById(d.id);
-        d.width = (the_text ? the_text.getBBox()["width"] + 10 : 96) +
-                  (d.q ? q_width : 0);
-        return d.width / 2;
+        d.width = document.getElementById(d.id).getBBox()["width"] + 28;
+        return (d.width - 18) / 2;
       },
       "text-anchor": "middle",
     });
 
-    node.append("rect")
+
+    // Now do the layout
+    var nodes = flextree.nodes(root);
+
+    // Reposition everything according to the layout
+    node.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+      .append("rect")
         .attr({
           "data-id": function(d) { return d.id; },
           x: 0,
           y: -10,
           rx: 6,
           ry: 6,
-          width: function(d) { return d.width + 18; },
+          width: function(d) { return d.width; },
           height: 20,
         });
 
-    var link = svg.selectAll(".link")
+
+    var links = flextree.links(nodes);
+
+
+    var links = svg.selectAll(".link")
         .data(links)
       .enter().append("path")
         .attr("class", "link")
