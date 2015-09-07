@@ -6,11 +6,21 @@
 * [c] Use nodeSize to configure it.
 * [c] Looks like node size is different depending on the level.  What the heck?
 
-## Strategy: simplest thing that could possibly work
 
-* First, don't implement anything having to do with diagonals (links).
-* Don't worry about separation at all
-* Don't do variable x-size.
+* Change the name of the repo.
+
+
+
+
+* Implement controls on the test page
+
+
+
+
+* Can I make it 100% backward-compatible? If so, the propose it as a pull-request to tree.
+  Otherwise, implement it as a plugin.
+
+
 
 
 
@@ -20,16 +30,10 @@
 
 * Later embellishments
 
-    * Make the node size such that it depends on level:
-        * Root: node size from left edge to the right edge of the box
-        * All others: node size from the right edge of the previous level,
-          including the space for the links, to the left edge of this box
-        * Then the diagonal generator will have to change:
-            * source always starts at the very end of the node virtual node
-              box (which is now the same as the visible node box)
-            * target y should include the horizontal space allowed for the
-              diagonal.
+    * Implement variable x-size
 
+    * How to do separation?  I think a function that takes the max diff of the
+          depth of the first common ancestor
 
 
 # Setting the node size

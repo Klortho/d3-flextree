@@ -1,50 +1,51 @@
-!function() {
+var tests = {
+  test1_1: {
+    layout: d3.layout.tree,
+    data_set: "test1.json",
+    // note that the sense of svg_size and size/nodeSize are reversed
+    svg_size: [500, 200],
+    tree_nodeSize: [30, 200],
+  },
+  test1_2: {
+    layout: d3.layout.flextree, 
+    data_set: "test1.json",
+    svg_size: [500, 200],
+    tree_nodeSize: function(d) {
+      return [30, d.width + 40];
+    }
+  },
+  test2_1: {
+    layout: d3.layout.tree,
+    data_set: "test2.json",
+    svg_size: [450, 300],
+    tree_size: [300, 400],
+  },
+  test2_2: {
+    layout: d3.layout.flextree,
+    data_set: "test2.json",
+    svg_size: [450, 300],
+    tree_nodeSize: function(d) {
+      return [25, d.width + 40];
+    }
+  },
+  test3_1: {
+    layout: d3.layout.flextree,
+    data_set: "test3.json",
+    svg_size: [300, 500],
+    tree_nodeSize: [40, 70],
+  },
+};
+var config = tests.test2_2;
+
+render(config);
 
 
-  var tests = {
-    test1_1: {
-      layout: d3.layout.tree,
-      data_set: "test1.json",
-      // note that the sense of svg_size and size/nodeSize are reversed
-      svg_size: [500, 200],
-      tree_nodeSize: [30, 200],
-    },
-    test1_2: {
-      layout: d3.layout.flextree, 
-      data_set: "test1.json",
-      svg_size: [500, 200],
-      tree_nodeSize: function(d) {
-        return [30, d.width + 40];
-      }
-    },
-    test2_1: {
-      layout: d3.layout.tree,
-      data_set: "test2.json",
-      svg_size: [450, 300],
-      tree_size: [300, 400],
-    },
-    test2_2: {
-      layout: d3.layout.flextree,
-      data_set: "test2.json",
-      svg_size: [450, 300],
-      tree_nodeSize: function(d) {
-        return [25, d.width + 40];
-      }
-    },
-    test3_1: {
-      layout: d3.layout.flextree,
-      data_set: "test3.json",
-      svg_size: [300, 500],
-      tree_nodeSize: [40, 70],
-    },
-  };
-  var config = tests.test2_2;
-
-
-  var flextree = config.layout()
-      .separation(function(a, b) { 
-        return (a.parent == b.parent ? 1 : 1); 
-      });
+function render(config) {
+var flextree = config.layout()
+  //    .separation(function(a, b) { 
+  //      return (a.parent == b.parent ? 1 : 1); 
+  //    })
+  ;
 
   if (config.tree_size) flextree.size(config.tree_size);
   else if (config.tree_nodeSize) flextree.nodeSize(config.tree_nodeSize);
@@ -61,7 +62,7 @@
         return [d.y, d.x]; 
       });
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("svg")
       .attr("width", config.svg_size[0])
       .attr("height", config.svg_size[1])
     .append("g")
@@ -128,18 +129,22 @@
           height: 20,
         });
 
-
     var links = flextree.links(nodes);
-
-
     var links = svg.selectAll(".link")
         .data(links)
       .enter().append("path")
         .attr("class", "link")
         .attr("d", diagonal);
-
-
-
-
   });
-}();
+}
+
+$('#layout').on('change', function(e) {
+  rerender();
+});
+
+
+function rerender() {
+  var layout = $('#layout').val();
+  config.layout = $('#layout').val() == "tree" ? d3.layout.tree : d3.layout.flextree;
+  render(config);
+}
