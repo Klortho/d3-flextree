@@ -38,7 +38,7 @@
       tree_nodeSize: [40, 70],
     },
   };
-  var config = tests.test1_2;
+  var config = tests.test2_2;
 
 
   var flextree = config.layout()
