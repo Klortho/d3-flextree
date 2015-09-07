@@ -1,27 +1,49 @@
 !function() {
 
-  var config = {
-    // either d3.layout.tree or use d3.layout.flextree;
-    layout: d3.layout.flextree,
 
-    // Data set
-    data_set: "simple.json",
-
-    // Size of the whole svg drawing
-    svg_size: [700, 500],
-
-    // Two ways to set the node size, these are mutually exclusive
-    //tree_size: [500, 500],
-    tree_nodeSize: function(d) {
-      console.log("tree_nodeSize, %o, d.width = " + d.width, d);
-      return [30, d.width + 40];
-    }
+  var tests = {
+    test1_1: {
+      layout: d3.layout.tree,
+      data_set: "test1.json",
+      // note that the sense of svg_size and size/nodeSize are reversed
+      svg_size: [500, 200],
+      tree_nodeSize: [30, 200],
+    },
+    test1_2: {
+      layout: d3.layout.flextree, 
+      data_set: "test1.json",
+      svg_size: [500, 200],
+      tree_nodeSize: function(d) {
+        return [30, d.width + 40];
+      }
+    },
+    test2_1: {
+      layout: d3.layout.tree,
+      data_set: "test2.json",
+      svg_size: [450, 300],
+      tree_size: [300, 400],
+    },
+    test2_2: {
+      layout: d3.layout.flextree,
+      data_set: "test2.json",
+      svg_size: [450, 300],
+      tree_nodeSize: function(d) {
+        return [25, d.width + 40];
+      }
+    },
+    test3_1: {
+      layout: d3.layout.flextree,
+      data_set: "test3.json",
+      svg_size: [300, 500],
+      tree_nodeSize: [40, 70],
+    },
   };
+  var config = tests.test1_2;
 
 
   var flextree = config.layout()
       .separation(function(a, b) { 
-        return (a.parent == b.parent ? 1 : 1.4); 
+        return (a.parent == b.parent ? 1 : 1); 
       });
 
   if (config.tree_size) flextree.size(config.tree_size);
@@ -57,8 +79,13 @@
     // hierarchy, before doing any of the layout. This will let me create the
     // text elements, which then give me the horizontal sizes of the nodes,
     // which are needed during layout.
-    var node_list = flextree.nodeList(root);
-
+    var node_list;
+    if (config.layout === d3.layout.flextree) {
+      node_list = flextree.nodeList(root);
+    }
+    else {
+      node_list = flextree.nodes(root);
+    }
 
     var node = svg.selectAll(".node")
         .data(node_list, function(d) { 

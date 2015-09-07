@@ -26,15 +26,14 @@ d3.layout.flextree = function() {
     // Walk zero sets the y-coordinates, which depend only on the width of
     // all the preceding nodes. We'll set x_size and y_size on every node, as well
     if (nodeSize) {
-      d3_layout_hierarchyVisitBefore(root_, function(n) {
+      d3_layout_hierarchyVisitBefore(root, function(n) {
+        var n_ = n._;
+        var ns = typeof nodeSize == "function" ? nodeSize(n_) : nodeSize;
+        n.x_size = ns[0];
+        n.y_size = ns[1];
+
         var np = n.parent;
-        if (np) {
-          var ns = typeof nodeSize == "function" ? nodeSize(np) : nodeSize;
-          n.y = np.y + ns[1];
-        }
-        else {
-          n.y = 0;
-        }
+        n_.y = np._.y + np.y_size;
       });
     }
 
@@ -85,6 +84,8 @@ d3.layout.flextree = function() {
   // this wraps the *children* of that node, and then pushes the child's wrapper
   // onto the queue. Finally, this returns the wrapped version of root, which is
   // the child of the fake wrapper of the non-existent parent.
+  // Note that the fake parent of root is used as a shortcut in lots of other places.
+  // I tried to get rid of it, but it is not a good idea.
 
   // FIXME: I changed the names of the wrapper members from single-character to
   // more meaningful names. I guess I should change them back, after everything 
@@ -93,7 +94,11 @@ d3.layout.flextree = function() {
   function wrapTree(root_) {
     var fake_root_parent = {
       A: null, 
-      _: { children: [root_] },
+      _: { 
+        children: [root_],
+        y: 0,
+      },
+      y_size: 0,
     };
 
     var queue = [fake_root_parent];
@@ -124,16 +129,18 @@ d3.layout.flextree = function() {
       }
     }
 
-    return fake_root_parent.children[0];
+    var root = fake_root_parent.children[0];
+    return root;
   }
 
   // FIRST WALK
-  // Computes a preliminary x-coordinate, and the final y-coordinate, for v. 
+  // Computes a preliminary x-coordinate for v. 
   // This is applied recursively to the children of v, as well as the function
   // APPORTION. After spacing out the children by calling EXECUTE SHIFTS, the
   // node v is placed to the midpoint of its outermost children.
   function firstWalk(v) {
     var children = v.children;
+    // siblings is really "siblings and self"
     var siblings = v.parent.children;
 
     var left_sibling = v.child_num ? siblings[v.child_num - 1] : null;
@@ -170,47 +177,94 @@ d3.layout.flextree = function() {
   // The core of the algorithm. Here, a new subtree is combined with the
   // previous subtrees. Threads are used to traverse the inside and outside
   // contours of the left and right subtree up to the highest common level. The
-  // vertices used for the traversals are vi+, vi-, vo-, and vo+, where the
+  // vertices used for the traversals are vil, vir, vol, and vor, where the
   // superscript o means outside and i means inside, the subscript - means left
   // subtree and + means right subtree. For summing up the modifiers along the
-  // contour, we use respective variables si+, si-, so-, and so+. Whenever two
+  // contour, we use respective variables sir, si-, so-, and so+. Whenever two
   // nodes of the inside contours conflict, we compute the left one of the
   // greatest uncommon ancestors using the function ANCESTOR and call MOVE
   // SUBTREE to shift the subtree and prepare the shifts of smaller subtrees.
   // Finally, we add a new thread (if necessary).
   function apportion(v, w, ancestor) {
+    console.log("apportion(" + v._.name + ")")
     if (w) {
-      var vip = v,
-          vop = v,
-          vim = w,
-          vom = vip.parent.children[0],
-          sip = vip.modifier,
-          sop = vop.modifier,
-          sim = vim.modifier,
-          som = vom.modifier,
+      var vir = v,
+          vor = v,
+          vil = w,
+          vol = vir.parent.children[0],
+          sir = vir.modifier,
+          sor = vor.modifier,
+          sil = vil.modifier,
+          sol = vol.modifier,
           shift;
-      while (vim = d3_layout_treeRight(vim), vip = d3_layout_treeLeft(vip), vim && vip) {
-        vom = d3_layout_treeLeft(vom);
-        vop = d3_layout_treeRight(vop);
-        vop.ancestor = v;
-        shift = vim.prelim + sim - vip.prelim - sip + separation(vim._, vip._);
-        if (shift > 0) {
-          d3_layout_treeMove(d3_layout_treeAncestor(vim, v, ancestor), v, shift);
-          sip += shift;
-          sop += shift;
+
+
+      var vir_changed = false,
+          vor_changed = false,
+          vil_changed = false,
+          vol_changed = false;
+      while (true) 
+      {
+        var vir_end_y = vir._.y + vir.y_size;
+        console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
+        var vor_end_y = vor._.y + vor.y_size;
+        console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
+        var vil_end_y = vil._.y + vil.y_size;
+        console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
+        var vol_end_y = vol._.y + vol.y_size;
+        console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
+
+        var next_y = d3.min([
+          vir_end_y, vor_end_y, vil_end_y, vol_end_y,
+        ]);
+        if (next_y == vir_end_y) {
+
         }
-        sim += vim.modifier;
-        sip += vip.modifier;
-        som += vom.modifier;
-        sop += vop.modifier;
+        else if (next_y == vor_end_y) {
+
+        }
+        else if (next_y == vil_end_y) {
+
+        }
+        else {
+
+        }
+
+        vil = d3_layout_treeRight(vil);   // next on left contour of this subtree
+        vil_changed = true;
+
+        vir = d3_layout_treeLeft(vir);
+        vir_changed = true;
+
+        if (!vil || !vir) break;
+
+        vol = d3_layout_treeLeft(vol);
+        vol_changed = true;
+
+        vor = d3_layout_treeRight(vor);
+        vor_changed = true;
+
+        if (vor_changed) vor.ancestor = v;
+        if (vil_changed || vir_changed) {
+          shift = vil.prelim + sil - vir.prelim - sir + separation(vil._, vir._);
+          if (shift > 0) {
+            d3_layout_treeMove(d3_layout_treeAncestor(vil, v, ancestor), v, shift);
+            sir += shift;
+            sor += shift;
+          }
+        }
+        if (vil_changed) sil += vil.modifier;
+        if (vir_changed) sir += vir.modifier;
+        if (vol_changed) sol += vol.modifier;
+        if (vor_changed) sor += vor.modifier;
       }
-      if (vim && !d3_layout_treeRight(vop)) {
-        vop.thread = vim;
-        vop.modifier += sim - sop;
+      if (vil && !d3_layout_treeRight(vor)) {
+        vor.thread = vil;
+        vor.modifier += sil - sor;
       }
-      if (vip && !d3_layout_treeLeft(vom)) {
-        vom.thread = vip;
-        vom.modifier += sip - som;
+      if (vir && !d3_layout_treeLeft(vol)) {
+        vol.thread = vir;
+        vol.modifier += sir - sol;
         ancestor = v;
       }
     }
@@ -300,10 +354,10 @@ function d3_layout_treeShift(v) {
 }
 
 // ANCESTOR
-// If vi-’s ancestor is a sibling of v, returns vi-’s ancestor. Otherwise,
+// If vil’s ancestor is a sibling of v, returns vi-’s ancestor. Otherwise,
 // returns the specified (default) ancestor.
-function d3_layout_treeAncestor(vim, v, ancestor) {
-  return vim.ancestor.parent === v.parent ? vim.ancestor : ancestor;
+function d3_layout_treeAncestor(vil, v, ancestor) {
+  return vil.ancestor.parent === v.parent ? vil.ancestor : ancestor;
 }
 
 
