@@ -25,16 +25,36 @@ d3.layout.flextree = function() {
       return a.parent == b.parent ? scale : 2 * scale;
     }
     else {
-      return (nodeSizeFunc(a)[0] + nodeSizeFunc(b)[0]) / 2;
+      return (getXSize(a) + getXSize(b)) / 2;
     }
   }
 
   // lazy get the x and y sizes, and cache them on the node
   function getXSize(n) {
-    return nodeSizeFunc ? n._.x_size : nodeSizeFixed[0];
+    if (nodeSizeFixed) {
+      return nodeSizeFixed[0];
+    }
+    else if (typeof n.x_size != "undefined") {
+      return n.x_size;
+    }
+    else {
+      var s = nodeSizeFunc(n);
+      n.y_size = s[1];
+      return n.x_size = s[0];
+    }
   }
   function getYSize(n) {
-    return nodeSizeFunc ? n._.y_size : nodeSizeFixed[1];
+    if (nodeSizeFixed) {
+      return nodeSizeFixed[1];
+    }
+    else if (typeof n.y_size != "undefined") {
+      return n.y_size;
+    }
+    else {
+      var s = nodeSizeFunc(n);
+      n.x_size = s[0];
+      return n.y_size = s[1];
+    }
   }
 
   function flextree(d, i) {
@@ -61,8 +81,8 @@ d3.layout.flextree = function() {
         n_.y_size = ns[1];
       }
 
-      var np = n.parent;
-      n_.y = np._.y + getYSize(np);
+      var np_ = n.parent._;
+      n_.y = np_.y + getYSize(np_);
     });
 
 
@@ -239,13 +259,13 @@ d3.layout.flextree = function() {
       while (true) 
       {
         //if (--max_iters <= 0) break;
-        var vir_end_y = vir._.y + getYSize(vir);
+        var vir_end_y = vir._.y + getYSize(vir._);
         console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
-        var vor_end_y = vor._.y + getYSize(vor);
+        var vor_end_y = vor._.y + getYSize(vor._);
         console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
-        var vil_end_y = vil._.y + getYSize(vil);
+        var vil_end_y = vil._.y + getYSize(vil._);
         console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
-        var vol_end_y = vol._.y + getYSize(vol);
+        var vol_end_y = vol._.y + getYSize(vol._);
         console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
 
         var next_y = d3.min([

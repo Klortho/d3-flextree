@@ -1,0 +1,80 @@
+{
+  "name": "root",
+  "width": 80,
+  "children": [
+    {
+      "name": "long",
+      "width": 150,
+      "children": [
+        {
+          "name": "long",
+          "width": 150,
+          "children": [
+            { 
+              "name": "leaf",
+              "width": 80,
+              "height": 200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "short",
+      "width": 80,
+      "children": [
+        {
+          "name": "short",
+          "width": 80,
+          "children": [
+            { 
+              "name": "leaf",
+              "width": 80
+            },
+            { 
+              "name": "leaf",
+              "width": 80
+            },
+            { 
+              "name": "leaf",
+              "width": 80
+            },
+            { 
+              "name": "leaf",
+              "width": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "long",
+      "width": 150,
+      "children": [
+        {
+          "name": "long",
+          "width": 150,
+          "children": [
+            { 
+              "name": "leaf",
+              "width": 80,
+              "height": 100
+            },
+            { 
+              "name": "leaf",
+              "width": 80
+            },
+            { 
+              "name": "leaf",
+              "width": 80
+            },
+            { 
+              "name": "leaf",
+              "width": 80
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
