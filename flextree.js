@@ -19,13 +19,18 @@ d3.layout.flextree = function() {
 
   var nodes;
 
-  function defaultSeparation(a, b) {
+  function defaultSeparation(a, b, gen) {
     if (nodeSizeFixed) {
       var scale = nodeSizeFixed[0];
       return a.parent == b.parent ? scale : 2 * scale;
     }
     else {
-      return (getXSize(a) + getXSize(b)) / 2;
+      var genscale = typeof gen == "undefined" || gen <= 1 ? 1 : 2;
+      if (typeof gen != "undefined") {
+        console.log("separation: a = " + a.name + ", b = " + b.name + ", gen = " +
+            gen);
+      }
+      return (getXSize(a) + getXSize(b)) / 2 * genscale;
     }
   }
 
@@ -76,7 +81,7 @@ d3.layout.flextree = function() {
       var n_ = n._;
       var ns = nodeSizeFixed || nodeSizeFunc(n_);
       if (nodeSizeFunc) {
-        console.log("setting node x_size = " + ns[0] + ", y_size = " + ns[1]);
+        //console.log("setting node x_size = " + ns[0] + ", y_size = " + ns[1]);
         n_.x_size = ns[0];
         n_.y_size = ns[1];
       }
@@ -198,7 +203,10 @@ d3.layout.flextree = function() {
 
     if (children.length) {
       d3_layout_treeShift(v);
-      var midpoint = (children[0].prelim + children[children.length - 1].prelim) / 2;
+      var cfirst = children[0],
+          clast = children[children.length - 1];
+      var midpoint = ( cfirst.prelim - getXSize(cfirst._)/2 + 
+                       clast.prelim + getXSize(clast._)/2 ) / 2;
       if (left_sibling) {
         v.prelim = left_sibling.prelim + separation(v._, left_sibling._);
         v.modifier = v.prelim - midpoint;
@@ -223,7 +231,6 @@ d3.layout.flextree = function() {
     v.modifier += v.parent.modifier;
   }
 
-
   // APPORTION
   // The core of the algorithm. Here, a new subtree is combined with the
   // previous subtrees. Threads are used to traverse the inside and outside
@@ -237,7 +244,7 @@ d3.layout.flextree = function() {
   // SUBTREE to shift the subtree and prepare the shifts of smaller subtrees.
   // Finally, we add a new thread (if necessary).
   function apportion(v, w, ancestor) {
-    console.log("apportion(" + v._.name + ")")
+    //console.log("apportion(" + v._.name + ")")
     if (w) {
       var vir = v,
           vor = v,
@@ -249,10 +256,12 @@ d3.layout.flextree = function() {
           sol = vol.modifier,
           shift;
 
+      var v_depth = v._.depth;
       var vir_changed = false,
           vor_changed = false,
           vil_changed = false,
           vol_changed = false;
+
       // FIXME: shouldn't need this: it is just here now to make sure we don't
       // end up in an infinite loop.
       //var max_iters = 200;
@@ -260,24 +269,24 @@ d3.layout.flextree = function() {
       {
         //if (--max_iters <= 0) break;
         var vir_end_y = vir._.y + getYSize(vir._);
-        console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
+        //console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
         var vor_end_y = vor._.y + getYSize(vor._);
-        console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
+        //console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
         var vil_end_y = vil._.y + getYSize(vil._);
-        console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
+        //console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
         var vol_end_y = vol._.y + getYSize(vol._);
-        console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
+        //console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
 
         var next_y = d3.min([
           vir_end_y, vor_end_y, vil_end_y, vol_end_y,
         ]);
         if (next_y == vir_end_y) {
-          console.log("stepping vir");
+          //console.log("stepping vir");
           vir = d3_layout_treeLeft(vir);
           vir_changed = true;
         }
         if (next_y == vil_end_y) {
-          console.log("stepping vil");
+          //console.log("stepping vil");
           vil = d3_layout_treeRight(vil);   // next on left contour of this subtree
           vil_changed = true;
         }
@@ -285,22 +294,23 @@ d3.layout.flextree = function() {
         if (!vil || !vir) break;
 
         if (next_y == vor_end_y) {
-          console.log("stepping vor");
+          //console.log("stepping vor");
           vor = d3_layout_treeRight(vor);
           vor_changed = true;
         }
         if (next_y == vol_end_y) {
-          console.log("stepping vol");
+          //console.log("stepping vol");
           vol = d3_layout_treeLeft(vol);
           vol_changed = true;
         }
 
-
-
         if (vor_changed) vor.ancestor = v;
 
         if (vil_changed || vir_changed) {
-          shift = vil.prelim + sil - vir.prelim - sir + separation(vil._, vir._);
+          shift = vil.prelim + sil - vir.prelim - sir + 
+            separation(vil._, vir._,
+                d3.max([vil._.depth - v_depth, vir._.depth - v_depth]) + 1)
+          ;
           if (shift > 0) {
             d3_layout_treeMove(d3_layout_treeAncestor(vil, v, ancestor), v, shift);
             sir += shift;

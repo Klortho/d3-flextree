@@ -17,7 +17,7 @@
       is a fixed array. (Breaks backwards compatibility)
 
 
-* Implement variable x-size
+* [c] Implement variable x-size
     * The separation function is defined to return the separation in units of
       nominal node x_size. When x_size is variable, there is no "nominal x_size",
       so we need to change the way it is defined.
@@ -25,16 +25,12 @@
     * I can also change it at the same time to use actual x_size's all the time,
       and take out the scaling at the end.
 
+* [c] Enhance the separation function to take a third argument, which the maximum 
+  difference in depth between each of the nodes and the closest ancestor
 
-
-
-* Enhance the separation function to take a third argument, which is either
-  the closest ancestor, or else just a number which is the maximum difference
-  in depth between each of the nodes and the closest ancestor
-
-* Do flare.json data - node size based on label length.
-    * Make some blocks to show off the difference between tree and flextree:
-        * [Collapsible Tree](http://bl.ocks.org/mbostock/4339083)
+* Make some blocks to show off the difference between tree and flextree:
+    * [Collapsible Tree](http://bl.ocks.org/mbostock/4339083)
+    * Use flare data
 
 * Add some tests
 
