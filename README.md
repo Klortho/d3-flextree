@@ -28,9 +28,42 @@
 * [c] Enhance the separation function to take a third argument, which the maximum 
   difference in depth between each of the nodes and the closest ancestor
 
+
+## Reimplement it as a change to tree, in D3.
+
+* Strategy:
+    * Morph them both together, until there are no diffs.
+    * Set my flextree index.html to render all of the presets at the same time,
+      and make sure they never break.
+
+
+
+
+
+
+
+## Next steps
+
+
+
+
+
+
+
+
+
+
+
+
+
 * Make some blocks to show off the difference between tree and flextree:
     * [Collapsible Tree](http://bl.ocks.org/mbostock/4339083)
     * Use flare data
+
+
+
+
+
 
 * Add some tests
 

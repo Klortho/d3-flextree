@@ -1,10 +1,4 @@
 var tests = {
-  atest4: {
-    layout: "flextree",
-    data_set: "test4.json",
-    sizing: "node-size-function",
-  },
-
   test1_1: {
     layout: "tree",
     data_set: "test1.json",
@@ -35,6 +29,11 @@ var tests = {
     data_set: "test3.json",
     sizing: "fixed-node-small",
   },
+  test4: {
+    layout: "flextree",
+    data_set: "test4.json",
+    sizing: "node-size-function",
+  },
 };
 
 
@@ -53,9 +52,12 @@ var nodebox_right_margin = 30;
 var nodebox_vertical_margin = 5;
 
 
-$('#preset').on('change', set_preset);
+$('#preset').on('change', function() {
+    var config = set_preset();
+    render(config, true);
+});
 $('#layout, #data_set, #sizing').on('change', function(e) {
-  render(config_from_form());
+  render(config_from_form(), true);
 });
 
 d3.select('#preset').selectAll('foo')
@@ -65,7 +67,12 @@ d3.select('#preset').selectAll('foo')
     .text(function(d) { return d; })
 ;
 
-set_preset();
+Object.keys(tests).sort().forEach(function(k) {
+  render(tests[k]);
+});
+
+//var config = set_preset();
+//render(config, true);
 
 // Set the width and height if they're not already
 function set_width_height(d) {
@@ -76,7 +83,9 @@ function set_width_height(d) {
   }
 }
 
-function render(config) {
+function render(config, reset) {
+  reset = typeof reset !== "undefined" && reset;
+
   var layout_engine = config.layout == "tree" ? d3.layout.tree : d3.layout.flextree;
   var flextree = layout_engine();
 
@@ -94,8 +103,8 @@ function render(config) {
     flextree.nodeSize(node_size_function);
   }
 
-  d3.select("#drawing svg").remove();
-  var svg = d3.select("#drawing").append('svg');
+  if (reset) d3.selectAll("#drawing div").remove();
+  var svg = d3.select("#drawing").append("div").append('svg');
   var svg_g = svg.append("g");
 
   var last_id = 0;
@@ -199,7 +208,7 @@ function set_preset() {
   $('#layout').val(config.layout);
   $('#data_set').val(config.data_set);
   $('#sizing').val(config.sizing);
-  render(config);
+  return config;
 }
 
 function config_from_form() {
