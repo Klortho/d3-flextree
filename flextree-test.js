@@ -37,7 +37,7 @@ var fixed_node_small = [25, 70];  // used for nodeSize()
 var fixed_node_big = [25, 200];   // used for nodeSize()
 var fixed_svg = [500, 500];       // used for size()
 function node_size_function(d) {  // used for nodeSize()  #=> new!
-  return [25, d.y_size || 70];
+  return [d.height || 25, d.width || 70];
 }
 
 $('#preset').on('change', set_preset);
@@ -54,6 +54,14 @@ d3.select('#preset').selectAll('foo')
 
 set_preset();
 
+// Set the width and height if they're not already
+function set_width_height(d) {
+  if (!d.width || !d.height) {
+    var size = node_size_function(d);
+    if (!d.width) d.width = size[1];
+    if (!d.height) d.height = size[0];
+  }
+}
 
 function render(config) {
   var layout_engine = config.layout == "tree" ? d3.layout.tree : d3.layout.flextree;
@@ -84,7 +92,7 @@ function render(config) {
           var s = d.source;
           return {
               x: s.x, 
-              y: s.y + (s.width ? s.width : 0),
+              y: s.y + (s.width ? s.width - 20: 0),
           };
       })
       .projection(function(d) { 
@@ -104,6 +112,24 @@ function render(config) {
         .attr("class", "node")
     ;
 
+    // Reposition everything according to the layout
+    node.attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")"; 
+      })
+      .append("rect")
+        .attr("data-id", function(d) {
+          set_width_height(d);  // do this now.
+          return d.id;
+        })
+        .attr({
+          x: 0,
+          y: function(d) { return -(d.height - 5) / 2; },
+          rx: 6,
+          ry: 6,
+          width: function(d) { return d.width - 20; },
+          height: function(d) { return d.height - 5; },
+        });
+
     var text_elements = node.append("text")
         .attr({
           "id": function(d) { return d.id; },
@@ -114,24 +140,11 @@ function render(config) {
 
     text_elements.attr({
       "dx": function(d) { 
-        d.width = document.getElementById(d.id).getBBox()["width"] + 28;
-        return (d.width - 18) / 2;
+        return d.width / 2 - 20;
       },
       "text-anchor": "middle",
     });
 
-    // Reposition everything according to the layout
-    node.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-      .append("rect")
-        .attr({
-          "data-id": function(d) { return d.id; },
-          x: 0,
-          y: -10,
-          rx: 6,
-          ry: 6,
-          width: function(d) { return d.width; },
-          height: 20,
-        });
 
     var links = flextree.links(nodes);
     var links = svg_g.selectAll(".link")

@@ -2,6 +2,9 @@
 
 * Draw the box based on node-size, not on the label.  This could avoid some
   confusion. Change the labels to be short and sweet.
+    * [c] Move x_size and y_size to _. These should be set by the library, and
+      then they can be used later by the calling app.
+    * parameterize some of the margins, and check all the code one more time.
 
 * Implement variable x-size
 

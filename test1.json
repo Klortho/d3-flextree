@@ -1,28 +1,28 @@
 {
   "name": "root",
-  "y_size": 70,
+  "width": 70,
   "children": [
     {
       "name": "long-long-long-long-long-long-long",
-      "y_size": 200,
+      "width": 200,
       "children": [
         { 
           "name": "leaf0",
-          "y_size": 70
+          "width": 70
         },
         { 
           "name": "leaf1",
-          "y_size": 70
+          "width": 70
         }
       ]
     },
     {
       "name": "short",
-      "y_size": 70,
+      "width": 70,
       "children": [
         { 
           "name": "leaf2",
-          "y_size": 70
+          "width": 70
         }
       ]
     }

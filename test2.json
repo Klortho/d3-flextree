@@ -1,30 +1,30 @@
 {
   "name": "root",
-  "y_size": 80,
+  "width": 80,
   "children": [
     {
       "name": "long-long-long-long",
-      "y_size": 150,
+      "width": 150,
       "children": [
         {
           "name": "long-long-long-long",
-          "y_size": 150,
+          "width": 150,
           "children": [
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             }
           ]
         }
@@ -32,27 +32,27 @@
     },
     {
       "name": "short",
-      "y_size": 80,
+      "width": 80,
       "children": [
         {
           "name": "short",
-          "y_size": 80,
+          "width": 80,
           "children": [
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             }
           ]
         }
@@ -60,27 +60,27 @@
     },
     {
       "name": "long-long-long-long",
-      "y_size": 150,
+      "width": 150,
       "children": [
         {
           "name": "long-long-long-long",
-          "y_size": 150,
+          "width": 150,
           "children": [
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             },
             { 
               "name": "leaf",
-              "y_size": 80
+              "width": 80
             }
           ]
         }

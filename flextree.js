@@ -31,11 +31,11 @@ d3.layout.flextree = function() {
                typeof nodeSize == "function" ? nodeSize(n_) : 
                nodeSize;
       console.log("setting node x_size = " + ns[0] + ", y_size = " + ns[1]);
-      n.x_size = ns[0];
-      n.y_size = ns[1];
+      n_.x_size = ns[0];
+      n_.y_size = ns[1];
 
       var np = n.parent;
-      n_.y = np._.y + np.y_size;
+      n_.y = np._.y + np._.y_size;
     });
 
 
@@ -98,9 +98,11 @@ d3.layout.flextree = function() {
       A: null, 
       _: { 
         children: [root_],
+        x: 0,
         y: 0,
+        y_size: 0,
+        x_size: 0,
       },
-      y_size: 0,
     };
 
     var queue = [fake_root_parent];
@@ -211,13 +213,13 @@ d3.layout.flextree = function() {
       while (true) 
       {
         //if (--max_iters <= 0) break;
-        var vir_end_y = vir._.y + vir.y_size;
+        var vir_end_y = vir._.y + vir._.y_size;
         console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
-        var vor_end_y = vor._.y + vor.y_size;
+        var vor_end_y = vor._.y + vor._.y_size;
         console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
-        var vil_end_y = vil._.y + vil.y_size;
+        var vil_end_y = vil._.y + vil._.y_size;
         console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
-        var vol_end_y = vol._.y + vol.y_size;
+        var vol_end_y = vol._.y + vol._.y_size;
         console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
 
         var next_y = d3.min([
