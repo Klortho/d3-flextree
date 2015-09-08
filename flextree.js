@@ -25,17 +25,19 @@ d3.layout.flextree = function() {
 
     // Walk zero sets the y-coordinates, which depend only on the width of
     // all the preceding nodes. We'll set x_size and y_size on every node, as well
-    if (nodeSize) {
-      d3_layout_hierarchyVisitBefore(root, function(n) {
-        var n_ = n._;
-        var ns = typeof nodeSize == "function" ? nodeSize(n_) : nodeSize;
-        n.x_size = ns[0];
-        n.y_size = ns[1];
+    d3_layout_hierarchyVisitBefore(root, function(n) {
+      var n_ = n._;
+      var ns = typeof nodeSize == "undefined" || !nodeSize ? [1, 1] :
+               typeof nodeSize == "function" ? nodeSize(n_) : 
+               nodeSize;
+      console.log("setting node x_size = " + ns[0] + ", y_size = " + ns[1]);
+      n.x_size = ns[0];
+      n.y_size = ns[1];
 
-        var np = n.parent;
-        n_.y = np._.y + np.y_size;
-      });
-    }
+      var np = n.parent;
+      n_.y = np._.y + np.y_size;
+    });
+
 
     // Compute the layout using Buchheim et al.'s algorithm.
     d3_layout_hierarchyVisitAfter(root, firstWalk);
@@ -186,7 +188,7 @@ d3.layout.flextree = function() {
   // SUBTREE to shift the subtree and prepare the shifts of smaller subtrees.
   // Finally, we add a new thread (if necessary).
   function apportion(v, w, ancestor) {
-    //console.log("apportion(" + v._.name + ")")
+    console.log("apportion(" + v._.name + ")")
     if (w) {
       var vir = v,
           vor = v,
@@ -198,46 +200,54 @@ d3.layout.flextree = function() {
           sol = vol.modifier,
           shift;
 
+
       var vir_changed = false,
           vor_changed = false,
           vil_changed = false,
           vol_changed = false;
+      // FIXME: shouldn't need this: it is just here now to make sure we don't
+      // end up in an infinite loop.
+      //var max_iters = 200;
       while (true) 
       {
+        //if (--max_iters <= 0) break;
         var vir_end_y = vir._.y + vir.y_size;
-        //console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
+        console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
         var vor_end_y = vor._.y + vor.y_size;
-        //console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
+        console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
         var vil_end_y = vil._.y + vil.y_size;
-        //console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
+        console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
         var vol_end_y = vol._.y + vol.y_size;
-        //console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
+        console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
 
         var next_y = d3.min([
           vir_end_y, vor_end_y, vil_end_y, vol_end_y,
         ]);
         if (next_y == vir_end_y) {
-          //console.log("stepping vir");
+          console.log("stepping vir");
           vir = d3_layout_treeLeft(vir);
           vir_changed = true;
         }
-        else if (next_y == vor_end_y) {
-          //console.log("stepping vor");
-          vor = d3_layout_treeRight(vor);
-          vor_changed = true;
-        }
-        else if (next_y == vil_end_y) {
-          //console.log("stepping vil");
+        if (next_y == vil_end_y) {
+          console.log("stepping vil");
           vil = d3_layout_treeRight(vil);   // next on left contour of this subtree
           vil_changed = true;
         }
-        else if (next_y == vol_end_y) {
-          //console.log("stepping vol");
+
+        if (!vil || !vir) break;
+
+        if (next_y == vor_end_y) {
+          console.log("stepping vor");
+          vor = d3_layout_treeRight(vor);
+          vor_changed = true;
+        }
+        if (next_y == vol_end_y) {
+          console.log("stepping vol");
           vol = d3_layout_treeLeft(vol);
           vol_changed = true;
         }
 
-        if (!vil || !vir) break;
+
 
         if (vor_changed) vor.ancestor = v;
 
@@ -251,8 +261,8 @@ d3.layout.flextree = function() {
         }
         if (vil_changed) sil += vil.modifier;
         if (vir_changed) sir += vir.modifier;
-        if (vol_changed && vol) sol += vol.modifier;
-        if (vor_changed && vor) sor += vor.modifier;
+        if (vol_changed) sol += vol.modifier;
+        if (vor_changed) sor += vor.modifier;
       }
       if (vil && vor && !d3_layout_treeRight(vor)) {
         vor.thread = vil;
