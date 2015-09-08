@@ -3,11 +3,11 @@
   "width": 80,
   "children": [
     {
-      "name": "long-long-long-long",
+      "name": "long",
       "width": 150,
       "children": [
         {
-          "name": "long-long-long-long",
+          "name": "long",
           "width": 150,
           "children": [
             { 
@@ -59,11 +59,11 @@
       ]
     },
     {
-      "name": "long-long-long-long",
+      "name": "long",
       "width": 150,
       "children": [
         {
-          "name": "long-long-long-long",
+          "name": "long",
           "width": 150,
           "children": [
             { 

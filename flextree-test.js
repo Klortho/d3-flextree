@@ -33,12 +33,19 @@ var tests = {
 
 
 // Variables for the different sizing options
-var fixed_node_small = [25, 70];  // used for nodeSize()
-var fixed_node_big = [25, 200];   // used for nodeSize()
-var fixed_svg = [500, 500];       // used for size()
-function node_size_function(d) {  // used for nodeSize()  #=> new!
+var fixed_node_small = [25, 70]; // for nodeSize()
+var fixed_node_big = [25, 200];   // for nodeSize()
+var fixed_svg = [400, 500];       // for size()
+function node_size_function(d) {  // for nodeSize()  #=> new!
   return [d.height || 25, d.width || 70];
 }
+
+// The node box is drawn smaller than the actual node width, to
+// allow room for the diagonal
+var nodebox_right_margin = 30;
+// And smaller than the actual node height, for spacing
+var nodebox_vertical_margin = 5;
+
 
 $('#preset').on('change', set_preset);
 $('#layout, #data_set, #sizing').on('change', function(e) {
@@ -92,7 +99,7 @@ function render(config) {
           var s = d.source;
           return {
               x: s.x, 
-              y: s.y + (s.width ? s.width - 20: 0),
+              y: s.y + (s.width ? s.width - nodebox_right_margin: 0),
           };
       })
       .projection(function(d) { 
@@ -123,28 +130,30 @@ function render(config) {
         })
         .attr({
           x: 0,
-          y: function(d) { return -(d.height - 5) / 2; },
+          y: function(d) { 
+            return -(d.height - nodebox_vertical_margin) / 2; 
+          },
           rx: 6,
           ry: 6,
-          width: function(d) { return d.width - 20; },
-          height: function(d) { return d.height - 5; },
+          width: function(d) { return d.width - nodebox_right_margin; },
+          height: function(d) { 
+            return d.height - nodebox_vertical_margin; 
+          },
         });
 
     var text_elements = node.append("text")
         .attr({
           "id": function(d) { return d.id; },
           dy: "0.35em",
-          transform: "translate(8)",
         })
         .text(function(d) { return d.name; });
 
     text_elements.attr({
       "dx": function(d) { 
-        return d.width / 2 - 20;
+        return (d.width - nodebox_right_margin) / 2;
       },
       "text-anchor": "middle",
     });
-
 
     var links = flextree.links(nodes);
     var links = svg_g.selectAll(".link")

@@ -8,8 +8,23 @@ d3.layout.flextree = function() {
   var size = [1, 1];     // width, height; null if we're using nodeSize
   var nodeSize = null;
 
+  // The node size can be specified in one of three ways, and the following
+  // computed variables simplify the handling
+  //   size    nodeSize     nodeSizeFixed  nodeSizeFunc
+  //   [x,y]     null         [1,1]         null        # scale drawing at end
+  //   null      [x,y]        [x,y]         null
+  //   null      function     null          function
+  var nodeSizeFixed = null;
+  var nodeSizeFunc = null;
+
   var nodes;
 
+  function getXSize(n) {
+    return nodeSizeFunc ? n._.x_size : nodeSizeFixed[0];
+  }
+  function getYSize(n) {
+    return nodeSizeFunc ? n._.y_size : nodeSizeFixed[1];
+  }
 
   function flextree(d, i) {
     // This produces the array of all of the nodes in the tree
@@ -23,19 +38,20 @@ d3.layout.flextree = function() {
     // root is a wrapper around the root node
     var root = wrapTree(root_);
 
-    // Walk zero sets the y-coordinates, which depend only on the width of
-    // all the preceding nodes. We'll set x_size and y_size on every node, as well
+    // "Walk zero" sets the y-coordinates, which depend only on the y_size of
+    // the ancestor nodes. When nodeSize is a function, we'll set x_size 
+    // and y_size on every node, as well
     d3_layout_hierarchyVisitBefore(root, function(n) {
       var n_ = n._;
-      var ns = typeof nodeSize == "undefined" || !nodeSize ? [1, 1] :
-               typeof nodeSize == "function" ? nodeSize(n_) : 
-               nodeSize;
-      console.log("setting node x_size = " + ns[0] + ", y_size = " + ns[1]);
-      n_.x_size = ns[0];
-      n_.y_size = ns[1];
+      var ns = nodeSizeFixed || nodeSizeFunc(n_);
+      if (nodeSizeFunc) {
+        console.log("setting node x_size = " + ns[0] + ", y_size = " + ns[1]);
+        n_.x_size = ns[0];
+        n_.y_size = ns[1];
+      }
 
       var np = n.parent;
-      n_.y = np._.y + np._.y_size;
+      n_.y = np._.y + getYSize(np);
     });
 
 
@@ -98,8 +114,8 @@ d3.layout.flextree = function() {
       A: null, 
       _: { 
         children: [root_],
-        x: 0,
-        y: 0,
+        x: nodeSizeFunc ? 0 : -nodeSizeFixed[0],
+        y: nodeSizeFunc ? 0 : -nodeSizeFixed[1],
         y_size: 0,
         x_size: 0,
       },
@@ -202,7 +218,6 @@ d3.layout.flextree = function() {
           sol = vol.modifier,
           shift;
 
-
       var vir_changed = false,
           vor_changed = false,
           vil_changed = false,
@@ -213,13 +228,13 @@ d3.layout.flextree = function() {
       while (true) 
       {
         //if (--max_iters <= 0) break;
-        var vir_end_y = vir._.y + vir._.y_size;
+        var vir_end_y = vir._.y + getYSize(vir);
         console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
-        var vor_end_y = vor._.y + vor._.y_size;
+        var vor_end_y = vor._.y + getYSize(vor);
         console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
-        var vil_end_y = vil._.y + vil._.y_size;
+        var vil_end_y = vil._.y + getYSize(vil);
         console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
-        var vol_end_y = vol._.y + vol._.y_size;
+        var vol_end_y = vol._.y + getYSize(vol);
         console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
 
         var next_y = d3.min([
@@ -287,8 +302,8 @@ d3.layout.flextree = function() {
 
   flextree.size = function(x) {
     if (!arguments.length) return size;
-    size = x;
-    nodeSize = null;
+    size = nodeSizeFixed = x;
+    nodeSize = nodeSizeFunc = null;
     return flextree;
   };
 
@@ -296,6 +311,14 @@ d3.layout.flextree = function() {
     if (!arguments.length) return nodeSize;
     nodeSize = x;
     size = null;
+    if (typeof nodeSize == "function") {
+        nodeSizeFunc = nodeSize;
+        nodeSizeFixed = null;
+    }
+    else {
+        nodeSizeFunc = null;
+        nodeSizeFixed = nodeSize;
+    }
     return flextree;
   };
 
