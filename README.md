@@ -18,6 +18,15 @@
 
 
 * Implement variable x-size
+    * The separation function is defined to return the separation in units of
+      nominal node x_size. When x_size is variable, there is no "nominal x_size",
+      so we need to change the way it is defined.
+    * The *default separation function* needs to be based on actual x_size's.
+    * I can also change it at the same time to use actual x_size's all the time,
+      and take out the scaling at the end.
+
+
+
 
 * Enhance the separation function to take a third argument, which is either
   the closest ancestor, or else just a number which is the maximum difference

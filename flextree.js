@@ -4,7 +4,7 @@ d3.layout.flextree = function() {
   var hierarchy = d3.layout.hierarchy().sort(null).value(null);
 
   // Configuration defaults
-  var separation = d3_layout_treeSeparation;
+  var separation = defaultSeparation;
   var size = [1, 1];     // width, height; null if we're using nodeSize
   var nodeSize = null;
 
@@ -19,6 +19,17 @@ d3.layout.flextree = function() {
 
   var nodes;
 
+  function defaultSeparation(a, b) {
+    if (nodeSizeFixed) {
+      var scale = nodeSizeFixed[0];
+      return a.parent == b.parent ? scale : 2 * scale;
+    }
+    else {
+      return (nodeSizeFunc(a)[0] + nodeSizeFunc(b)[0]) / 2;
+    }
+  }
+
+  // lazy get the x and y sizes, and cache them on the node
   function getXSize(n) {
     return nodeSizeFunc ? n._.x_size : nodeSizeFixed[0];
   }
@@ -65,7 +76,7 @@ d3.layout.flextree = function() {
     if (nodeSize) {
       d3_layout_hierarchyVisitBefore(root_, function(node) {
         var ns = typeof nodeSize == "function" ? nodeSize(node) : nodeSize;
-        node.x *= ns[0];
+        //node.x *= 25;
         //node.y = node.depth * ns[1];
       });
     }
@@ -329,9 +340,6 @@ d3.layout.flextree = function() {
   return d3_layout_hierarchyRebind(flextree, hierarchy);
 };
 
-function d3_layout_treeSeparation(a, b) {
-  return a.parent == b.parent ? 1 : 2;
-}
 
 // function d3_layout_treeSeparationRadial(a, b) {
 //   return (a.parent == b.parent ? 1 : 2) / a.depth;

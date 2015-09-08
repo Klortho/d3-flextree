@@ -1,4 +1,10 @@
 var tests = {
+  atest4: {
+    layout: "flextree",
+    data_set: "test4.json",
+    sizing: "node-size-function",
+  },
+
   test1_1: {
     layout: "tree",
     data_set: "test1.json",
@@ -162,6 +168,7 @@ function render(config) {
         .attr("class", "link")
         .attr("d", diagonal);
 
+    // Set the svg drawing size and translation
     // Note that the x-y orientations between the svg and the tree drawing are reversed
     var min_x = null,
         max_x = null,
@@ -180,10 +187,10 @@ function render(config) {
       }
     }
     svg.attr({
-      width: max_x - min_x + 50,
-      height: max_y - min_y + 20,
+      width: max_x - min_x + fixed_node_big[1],
+      height: max_y - min_y + 200,
     });
-    svg_g.attr("transform", "translate(0, " + (-min_y + 10) + ")");
+    svg_g.attr("transform", "translate(0, " + (-min_y + 100) + ")");
   });
 }
 
