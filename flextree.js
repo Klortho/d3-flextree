@@ -13,7 +13,7 @@ d3.layout.flextree = function() {
 
   function flextree(d, i) {
     // This produces the array of all of the nodes in the tree
-    //var nodes = hierarchy.call(this, d, i);
+    var nodes = hierarchy.call(this, d, i);
 
     // root_ is the root of the tree. By convention, the real tree nodes that
     // the user passed in are referred to by "_", and the wrapped nodes by
@@ -186,7 +186,7 @@ d3.layout.flextree = function() {
   // SUBTREE to shift the subtree and prepare the shifts of smaller subtrees.
   // Finally, we add a new thread (if necessary).
   function apportion(v, w, ancestor) {
-    console.log("apportion(" + v._.name + ")")
+    //console.log("apportion(" + v._.name + ")")
     if (w) {
       var vir = v,
           vor = v,
@@ -205,34 +205,34 @@ d3.layout.flextree = function() {
       while (true) 
       {
         var vir_end_y = vir._.y + vir.y_size;
-        console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
+        //console.log("vir_end_y: '" + vir._.name + "': " + vir_end_y);
         var vor_end_y = vor._.y + vor.y_size;
-        console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
+        //console.log("vor_end_y: '" + vor._.name + "': " + vor_end_y);
         var vil_end_y = vil._.y + vil.y_size;
-        console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
+        //console.log("vil_end_y: '" + vil._.name + "': " + vil_end_y);
         var vol_end_y = vol._.y + vol.y_size;
-        console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
+        //console.log("vol_end_y: '" + vol._.name + "': " + vol_end_y);
 
         var next_y = d3.min([
           vir_end_y, vor_end_y, vil_end_y, vol_end_y,
         ]);
         if (next_y == vir_end_y) {
-          console.log("stepping vir");
+          //console.log("stepping vir");
           vir = d3_layout_treeLeft(vir);
           vir_changed = true;
         }
         else if (next_y == vor_end_y) {
-          console.log("stepping vor");
+          //console.log("stepping vor");
           vor = d3_layout_treeRight(vor);
           vor_changed = true;
         }
         else if (next_y == vil_end_y) {
-          console.log("stepping vil");
+          //console.log("stepping vil");
           vil = d3_layout_treeRight(vil);   // next on left contour of this subtree
           vil_changed = true;
         }
-        else {
-          console.log("stepping vol");
+        else if (next_y == vol_end_y) {
+          //console.log("stepping vol");
           vol = d3_layout_treeLeft(vol);
           vol_changed = true;
         }

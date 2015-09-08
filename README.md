@@ -1,24 +1,38 @@
 # To do
 
-* [c] Create a D3 plugin, change the name from tree to flextree
-* [c] Update the tree-test.html example to use that
-* [c] Make the tree-test.html example use *either* tree or flextree
-* [c] Use nodeSize to configure it.
-* [c] Looks like node size is different depending on the level.  What the heck?
+* [c] Where is test1_1?
+* [c] Can I resize / scale / transform the drawing after it is drawn?
+
+* Implement form-from-config
 
 
-* Change the name of the repo.
 
-
+* Fix the problem with test3_1: algorithm is not right!!
 
 
 * Implement controls on the test page
+    * [c] Add a control for preset.
 
 
+
+
+* [c] Implement different drawing size schemes
+    * Options:
+          * Fixed svg size: use `size`: [500, 500]
+          * fixed size, small nodes (25 X 70)
+          * fixed size, big nodes (25 X 200)
+          * nodeSize as a function
+* [c] Put node sizes into the data, instead of using text size.
+
+
+* Get rid of the node-list function -- there are other ways to do this.
 
 
 * Can I make it 100% backward-compatible? If so, the propose it as a pull-request to tree.
-  Otherwise, implement it as a plugin.
+  Otherwise, implement it as a plugin, named flextree.
+
+
+
 
 
 

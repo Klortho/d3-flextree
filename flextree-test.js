@@ -1,54 +1,83 @@
 var tests = {
   test1_1: {
-    layout: d3.layout.tree,
+    layout: "tree",
     data_set: "test1.json",
-    // note that the sense of svg_size and size/nodeSize are reversed
-    svg_size: [500, 200],
-    tree_nodeSize: [30, 200],
+    sizing: "fixed-node-big",
   },
   test1_2: {
-    layout: d3.layout.flextree, 
+    layout: "flextree", 
     data_set: "test1.json",
-    svg_size: [500, 200],
-    tree_nodeSize: function(d) {
-      return [30, d.width + 40];
-    }
+    sizing: "node-size-function",
   },
   test2_1: {
-    layout: d3.layout.tree,
+    layout: "tree",
     data_set: "test2.json",
-    svg_size: [450, 300],
-    tree_size: [300, 400],
+    sizing: "fixed-svg",
   },
   test2_2: {
-    layout: d3.layout.flextree,
+    layout: "flextree",
     data_set: "test2.json",
-    svg_size: [450, 300],
-    tree_nodeSize: function(d) {
-      return [25, d.width + 40];
-    }
+    sizing: "node-size-function",
   },
   test3_1: {
-    layout: d3.layout.flextree,
+    layout: "tree",
     data_set: "test3.json",
-    svg_size: [300, 500],
-    tree_nodeSize: [40, 70],
+    sizing: "fixed-node-small",
+  },
+  test3_2: {
+    layout: "flextree",
+    data_set: "test3.json",
+    sizing: "fixed-node-small",
   },
 };
-var config = tests.test2_2;
 
-render(config);
+
+// Variables for the different sizing options
+var fixed_node_small = [25, 70];  // used for nodeSize()
+var fixed_node_big = [25, 200];   // used for nodeSize()
+var fixed_svg = [500, 500];       // used for size()
+function node_size_function(d) {  // used for nodeSize()  #=> new!
+  return [25, d.y_size || 70];
+}
+
+$('#preset').on('change', set_preset);
+$('#layout, #data_set, #sizing').on('change', function(e) {
+  render(config_from_form());
+});
+
+d3.select('#preset').selectAll('foo')
+  .data(Object.keys(tests).sort())
+  .enter().append("option")
+    .attr("value", function(d) { return d; })
+    .text(function(d) { return d; })
+;
+
+set_preset();
 
 
 function render(config) {
-var flextree = config.layout()
-  //    .separation(function(a, b) { 
-  //      return (a.parent == b.parent ? 1 : 1); 
-  //    })
-  ;
+  var layout_engine = config.layout == "tree" ? d3.layout.tree : d3.layout.flextree;
+  var flextree = layout_engine();
 
-  if (config.tree_size) flextree.size(config.tree_size);
-  else if (config.tree_nodeSize) flextree.nodeSize(config.tree_nodeSize);
+  if (config.sizing == "fixed-node-small") {
+    flextree.nodeSize(fixed_node_small);
+  }
+  else if (config.sizing == "fixed-node-big") {
+    flextree.nodeSize(fixed_node_big);
+  }
+  else if (config.sizing == "fixed-svg") {
+    flextree.size(fixed_svg);
+  }
+  else if (config.sizing == "node-size-function") {
+    // Only works for flextree, not tree:
+    flextree.nodeSize(node_size_function);
+  }
+
+  d3.select("#drawing svg").remove();
+  var svg = d3.select("#drawing").append('svg');
+  var svg_g = svg.append("g");
+
+  var last_id = 0;
 
   var diagonal = d3.svg.diagonal()
       .source(function(d, i) {
@@ -62,34 +91,13 @@ var flextree = config.layout()
         return [d.y, d.x]; 
       });
 
-  var svg = d3.select("svg")
-      .attr("width", config.svg_size[0])
-      .attr("height", config.svg_size[1])
-    .append("g")
-  ;
-  if (config.tree_nodeSize) {
-    svg.attr("transform", "translate(0, " + config.svg_size[1] / 2 + ")");
-  }
-
-  var last_id = 0;
-
   d3.json(config.data_set, function(error, root) {
     if (error) throw error;
 
-    // I had to create a new top-level method, nodeList, to first create the node list
-    // hierarchy, before doing any of the layout. This will let me create the
-    // text elements, which then give me the horizontal sizes of the nodes,
-    // which are needed during layout.
-    var node_list;
-    if (config.layout === d3.layout.flextree) {
-      node_list = flextree.nodeList(root);
-    }
-    else {
-      node_list = flextree.nodes(root);
-    }
+    var nodes = flextree.nodes(root);
 
-    var node = svg.selectAll(".node")
-        .data(node_list, function(d) { 
+    var node = svg_g.selectAll(".node")
+        .data(nodes, function(d) { 
           return d.id || (d.id = ++last_id); 
         })
       .enter().append("g")
@@ -112,10 +120,6 @@ var flextree = config.layout()
       "text-anchor": "middle",
     });
 
-
-    // Now do the layout
-    var nodes = flextree.nodes(root);
-
     // Reposition everything according to the layout
     node.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
       .append("rect")
@@ -130,21 +134,50 @@ var flextree = config.layout()
         });
 
     var links = flextree.links(nodes);
-    var links = svg.selectAll(".link")
+    var links = svg_g.selectAll(".link")
         .data(links)
       .enter().append("path")
         .attr("class", "link")
         .attr("d", diagonal);
+
+    // Note that the x-y orientations between the svg and the tree drawing are reversed
+    var min_x = null,
+        max_x = null,
+        min_y = null,
+        max_y = null;
+    var nodes_to_visit = [root],
+        node;
+    while ((node = nodes_to_visit.pop()) != null) {
+      min_x = min_x == null || node.y < min_x ? node.y : min_x;
+      max_x = max_x == null || node.y > max_x ? node.y : max_x;
+      min_y = min_y == null || node.x < min_y ? node.x : min_y;
+      max_y = max_y == null || node.x > max_y ? node.x : max_y;
+      var n, children;
+      if ((children = node.children) && (n = children.length)) {
+        while (--n >= 0) nodes_to_visit.push(children[n]);
+      }
+    }
+    svg.attr({
+      width: max_x - min_x + 50,
+      height: max_y - min_y + 20,
+    });
+    svg_g.attr("transform", "translate(0, " + (-min_y + 10) + ")");
   });
 }
 
-$('#layout').on('change', function(e) {
-  rerender();
-});
-
-
-function rerender() {
-  var layout = $('#layout').val();
-  config.layout = $('#layout').val() == "tree" ? d3.layout.tree : d3.layout.flextree;
+function set_preset() {
+  var config = tests[$('#preset').val()];
+  $('#layout').val(config.layout);
+  $('#data_set').val(config.data_set);
+  $('#sizing').val(config.sizing);
   render(config);
 }
+
+function config_from_form() {
+  var config = {};
+  config.layout = $('#layout').val();
+  config.data_set = $('#data_set').val();
+  config.sizing = $('#sizing').val();
+  return config;
+}
+
