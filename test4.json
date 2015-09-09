@@ -14,6 +14,10 @@
               "name": "leaf",
               "width": 80,
               "height": 200
+            },
+            { 
+              "name": "leaf",
+              "width": 80
             }
           ]
         }
@@ -57,12 +61,12 @@
           "children": [
             { 
               "name": "leaf",
-              "width": 80,
-              "height": 300
+              "width": 80
             },
             { 
               "name": "leaf",
-              "width": 80
+              "width": 80,
+              "height": 300
             },
             { 
               "name": "leaf",
