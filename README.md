@@ -9,6 +9,9 @@ See
 * That references this paper, [Drawing Non-layered Tidy Trees in Linear 
   Time](http://oai.cwi.nl/oai/asset/21856/21856B.pdf)
 
+
+# To do
+
 ## Fix separator/margin
 
 Get something on gh-pages now, and respond to GH issue.
@@ -24,14 +27,12 @@ My branches of the d3 repo:
 * flextree - latest/greatest
 * septest - branched off of master, write a new separation test
 
-
 To do:
 
 * Go back to master of d3, make a new fork, and then write a test for
   needed behavior of separator
 * Merge that into my flextree branch
 * Get the test working.
-
 
 
 ## Reorganize this repo
@@ -46,8 +47,6 @@ To do:
 ## More tests
 
 * Do some from the academic papers.
-
-
 
 
 ## New test page
@@ -68,22 +67,26 @@ To do:
     * Update the wiki documentation - I already forked it to my fork of d3's 
       wiki.
 
-
 * Things to mention:
     * Cleaned up the way size and nodeSize is handled.
+
 
 ## Register the plugin
 
 
-## Publish
-
-!
-
 
 # References
 
-* [1] [Tidier Drawings of Trees](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf).
-  Reingold and Tilford, 1981
+* [1] [Tidier Drawings of 
+  Trees](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf). Reingold and 
+  Tilford, 1981
+* [A Node-Positioning Algorithm for General 
+  Trees](http://www.cs.unc.edu/techreports/89-034.pdf). Walker, 1989
+* [Improving Walker's Algorithm to Run in Linear 
+  Time](http://dirk.jivas.de/papers/buchheim02improving.pdf). Buchheim, Junger, 
+  and Leipert, 2002.
+* [Drawing Non-layered Tidy Trees in Linear 
+  Time](http://oai.cwi.nl/oai/asset/21856/21856B.pdf). A.J. van der Ploeg, 2013
 
 
 
