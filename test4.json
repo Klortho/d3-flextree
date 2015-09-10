@@ -16,8 +16,14 @@
               "height": 200
             },
             { 
-              "name": "leaf",
-              "width": 80
+              "name": "short",
+              "width": 80,
+              "children": [
+                {
+                  "name": "leaf",
+                  "width": 80
+                }
+              ]
             }
           ]
         }
@@ -32,8 +38,32 @@
           "width": 80,
           "children": [
             { 
-              "name": "leaf",
-              "width": 80
+              "name": "short",
+              "width": 80,
+              "children": [
+                {
+                  "name": "long",
+                  "width": 300,
+                  "children": [
+                    { 
+                      "name": "leaf",
+                      "width": 80
+                    },
+                    { 
+                      "name": "leaf",
+                      "width": 80
+                    },
+                    { 
+                      "name": "leaf",
+                      "width": 80
+                    },
+                    { 
+                      "name": "leaf",
+                      "width": 80
+                    }
+                  ]
+                }
+              ]
             },
             { 
               "name": "leaf",
