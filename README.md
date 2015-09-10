@@ -18,24 +18,27 @@ Here are my working repos/branches:
   nodeSize(), that work in the existing, unmodified D3 library.
 * Branch [flextree](https://github.com/klortho/d3/tree/flextree) - latest/greatest
 
+Here's somebody else [asking for this 
+feature](https://groups.google.com/forum/?fromgroups=#!searchin/d3-js/tree/d3-js/BjCvUpbqfb4/_rO0QcaKiGMJ)
+on the d3.js list.
+
 
 # To do
 
 ## Fix separator/margin
 
-Right now, separator implementation is not backwards compatible
+See [here](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY)
+for the design.
 
-My branches of the d3 repo:
 
-* flextree - latest/greatest
-* septest - branched off of master, write a new separation test
+
 
 To do:
 
-* ✓Go back to master of d3, make a new branch, and then write a test for
-  needed behavior of separator
-* ✓Merge that into my flextree branch
-* Get these regression tests working with flextree.
+* Implement margin().
+
+
+
 
 
 ## Reorganize this d3-flextree repo
