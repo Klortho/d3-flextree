@@ -1,15 +1,32 @@
-# To do
+# Flexible trees
 
-* More tests. Try to do a fairly exhaustive one. Also, do some from the
-  papers.
-* Make some blocks to show off the difference between tree and flextree:
-    * [Collapsible Tree](http://bl.ocks.org/mbostock/4339083)
+Meaning, dynamic node size
+
+See 
+
+* D3 [GitHub issue 1992 - Allow nodeSize for trees to be 
+  dynamic](https://github.com/mbostock/d3/issues/1992).
+* That references this paper, [Drawing Non-layered Tidy Trees in Linear 
+  Time](http://oai.cwi.nl/oai/asset/21856/21856B.pdf)
+
+## Fix separator/margin
+
+Get something on gh-pages now, and respond to GH issue.
 
 
 
 ## Fix separator/margin
 
-* Right now, separator implementation is not backwards compatible
+Right now, separator implementation is not backwards compatible
+
+My branches of the d3 repo:
+
+* flextree - latest/greatest
+* septest - branched off of master, write a new separation test
+
+
+To do:
+
 * Go back to master of d3, make a new fork, and then write a test for
   needed behavior of separator
 * Merge that into my flextree branch
@@ -26,6 +43,9 @@
 * Demo page should be the new test page (see below)
 
 
+## More tests
+
+* Do some from the academic papers.
 
 
 
@@ -55,7 +75,9 @@
 ## Register the plugin
 
 
+## Publish
 
+!
 
 
 # References
