@@ -29,7 +29,7 @@ var tests = {
     data_set: "test3.json",
     sizing: "fixed-node-small",
   },
-  test4: {
+  atest4: {
     layout: "flextree",
     data_set: "test4.json",
     sizing: "node-size-function",
@@ -67,12 +67,16 @@ d3.select('#preset').selectAll('foo')
     .text(function(d) { return d; })
 ;
 
-Object.keys(tests).sort().forEach(function(k) {
-  render(tests[k]);
-});
+// What to render initially:
 
-//var config = set_preset();
-//render(config, true);
+//Object.keys(tests).sort().forEach(function(k) {
+//  render(tests[k]);
+//});
+//
+var config = set_preset();
+render(config, true);
+
+
 
 // Set the width and height if they're not already
 function set_width_height(d) {
