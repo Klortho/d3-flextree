@@ -2,7 +2,7 @@ var tests = {
   test1_1: {
     layout: "tree",
     data_set: "test1.json",
-    sizing: "fixed-node-big",
+    sizing: "node-size-function",
   },
   test1_2: {
     layout: "flextree", 
@@ -29,7 +29,7 @@ var tests = {
     data_set: "test3.json",
     sizing: "fixed-node-small",
   },
-  atest4: {
+  test4: {
     layout: "flextree",
     data_set: "test4.json",
     sizing: "node-size-function",

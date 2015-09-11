@@ -30,6 +30,32 @@ on the d3.js list.
 See [here](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY)
 for the design.
 
+* [c] Get my test page working again.
+    * Work with d3.js that's been built with make.
+
+
+* [c] wraptree to set x_size and y_size on the wrapper
+* [c] Add a link from every node to its wrapper, as the _wrapper element
+* [c] Set separation from a closure -- no need to make it a closure.
+* [c] Use the new y_size everywhere
+    - [c] replace calls to getYSize
+* [c] Use the new x_size everywhere
+    - [c] replace calls to getXSize
+* [c] Scale when variable_node_size, same as when fixed
+
+
+
+
+* At end, delete the _wrapper element (not yet -- leave it in for debugging, for now)
+
+
+
+* To test:
+    - That tree.nodeSize([10,10]) behaves the same as
+      tree.nodeSize(function(){return [10,10];})
+    - behavior of the separation() function:
+        - call with null resets the state to use default
+
 
 
 
