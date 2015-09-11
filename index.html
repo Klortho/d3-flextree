@@ -13,9 +13,11 @@
     <div id='drawing'></div>
 
     <form>
-      <label for='preset'>Preset: </label>
-      <select id='preset'>
-      </select><br/>
+      <p>
+        <label for='preset'>Preset: </label>
+        <select id='preset'>
+        </select>
+      </p>
 
       <label for='layout'>Layout: </label>
       <select id='layout'>
@@ -39,6 +41,13 @@
         <option value='fixed-svg'>fixed-svg</option>
         <option value='node-size-function'>node-size-function</option>
       </select><br/>
+
+      <label for='separation'>Separator: </label>
+      <select id='separation'>
+        <option value='default'>default</option>
+        <option value='constant'>constant</option>
+        <option value='custom'>custom</option>
+      </select>
     </form>
 
     <script src='flextree-test.js'></script>

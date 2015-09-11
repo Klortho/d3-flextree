@@ -3,36 +3,43 @@ var tests = {
     layout: "tree",
     data_set: "test1.json",
     sizing: "node-size-function",
+    separation: 'default',
   },
   test1_2: {
     layout: "flextree", 
     data_set: "test1.json",
     sizing: "node-size-function",
+    separation: 'default',
   },
   test2_1: {
     layout: "tree",
     data_set: "test2.json",
     sizing: "fixed-svg",
+    separation: 'default',
   },
   test2_2: {
     layout: "flextree",
     data_set: "test2.json",
     sizing: "node-size-function",
+    separation: 'default',
   },
   test3_1: {
     layout: "tree",
     data_set: "test3.json",
     sizing: "fixed-node-small",
+    separation: 'default',
   },
   test3_2: {
     layout: "flextree",
     data_set: "test3.json",
     sizing: "fixed-node-small",
+    separation: 'default',
   },
   test4: {
     layout: "flextree",
     data_set: "test4.json",
     sizing: "node-size-function",
+    separation: 'default',
   },
 };
 
@@ -56,7 +63,8 @@ $('#preset').on('change', function() {
     var config = set_preset();
     render(config, true);
 });
-$('#layout, #data_set, #sizing').on('change', function(e) {
+$('#layout, #data_set, #sizing, #separation').on('change', function(e) {
+  $('#preset').val("");
   render(config_from_form(), true);
 });
 
@@ -78,15 +86,6 @@ render(config, true);
 
 
 
-// Set the width and height if they're not already
-function set_width_height(d) {
-  if (!d.width || !d.height) {
-    var size = node_size_function(d);
-    if (!d.width) d.width = size[1];
-    if (!d.height) d.height = size[0];
-  }
-}
-
 function render(config, reset) {
   reset = typeof reset !== "undefined" && reset;
 
@@ -105,6 +104,15 @@ function render(config, reset) {
   else if (config.sizing == "node-size-function") {
     // Only works for flextree, not tree:
     flextree.nodeSize(node_size_function);
+  }
+  if (config.separation == "constant") {
+    flextree.separation(function(a, b) { return 1.5; });
+  }
+  else if (config.separation == "custom") {
+    flextree.separation(function(a, b) { 
+      return (a._wrapper.x_size + b._wrapper.x_size) / 2 +
+             (a.name.match('leaf') || b.name.match('leaf') ? 1 : 0);
+    });
   }
 
   if (reset) d3.selectAll("#drawing div").remove();
@@ -212,6 +220,7 @@ function set_preset() {
   $('#layout').val(config.layout);
   $('#data_set').val(config.data_set);
   $('#sizing').val(config.sizing);
+  $('#separation').val(config.separation);
   return config;
 }
 
@@ -220,7 +229,17 @@ function config_from_form() {
   config.layout = $('#layout').val();
   config.data_set = $('#data_set').val();
   config.sizing = $('#sizing').val();
+  config.separation = $('#separation').val();
   return config;
 }
 
+
+// Set the width and height if they're not already
+function set_width_height(d) {
+  if (!d.width || !d.height) {
+    var size = node_size_function(d);
+    if (!d.width) d.width = size[1];
+    if (!d.height) d.height = size[0];
+  }
+}
 
