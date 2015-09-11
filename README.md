@@ -30,16 +30,11 @@ on the d3.js list.
 See [here](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY)
 for the design.
 
-* [c] Add some options for separator/margin to the flextree-test.js file
-
-
 * Add tests:
     - That tree.nodeSize([10,10]) behaves the same as
       tree.nodeSize(function(){return [10,10];})
     - behavior of the separation() function:
         - call with null resets the state to use default
-
-* Implement margin().
 
 
 

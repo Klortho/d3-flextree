@@ -4,42 +4,49 @@ var tests = {
     data_set: "test1.json",
     sizing: "node-size-function",
     separation: 'default',
+    spacing: 'null',
   },
   test1_2: {
     layout: "flextree", 
     data_set: "test1.json",
     sizing: "node-size-function",
     separation: 'default',
+    spacing: 'null',
   },
   test2_1: {
     layout: "tree",
     data_set: "test2.json",
     sizing: "fixed-svg",
     separation: 'default',
+    spacing: 'null',
   },
   test2_2: {
     layout: "flextree",
     data_set: "test2.json",
     sizing: "node-size-function",
     separation: 'default',
+    spacing: 'null',
   },
   test3_1: {
     layout: "tree",
     data_set: "test3.json",
     sizing: "fixed-node-small",
     separation: 'default',
+    spacing: 'null',
   },
   test3_2: {
     layout: "flextree",
     data_set: "test3.json",
     sizing: "fixed-node-small",
     separation: 'default',
+    spacing: 'null',
   },
   test4: {
     layout: "flextree",
     data_set: "test4.json",
     sizing: "node-size-function",
     separation: 'default',
+    spacing: 'null',
   },
 };
 
@@ -63,10 +70,18 @@ $('#preset').on('change', function() {
     var config = set_preset();
     render(config, true);
 });
-$('#layout, #data_set, #sizing, #separation').on('change', function(e) {
-  $('#preset').val("");
-  render(config_from_form(), true);
+$('#separation').on('change', function(e) {
+  $('#spacing').val("null");
 });
+$('#spacing').on('change', function(e) {
+  $('#separation').val("null");
+});
+$('#layout, #data_set, #sizing, #separation, #spacing').on('change', 
+  function(e) {
+    $('#preset').val("");
+    render(config_from_form(), true);
+  });
+
 
 d3.select('#preset').selectAll('foo')
   .data(Object.keys(tests).sort())
@@ -105,15 +120,30 @@ function render(config, reset) {
     // Only works for flextree, not tree:
     flextree.nodeSize(node_size_function);
   }
+
   if (config.separation == "constant") {
-    flextree.separation(function(a, b) { return 1.5; });
+    console.log("setting constant separation");
+    flextree.separation(function() { return 1.5; });
   }
   else if (config.separation == "custom") {
+    console.log("setting custom separation");
     flextree.separation(function(a, b) { 
       return (a._wrapper.x_size + b._wrapper.x_size) / 2 +
              (a.name.match('leaf') || b.name.match('leaf') ? 1 : 0);
     });
   }
+
+  if (config.spacing == "constant") {
+    console.log("setting constant spacing");
+    flextree.spacing(function() { return 10; });
+  }
+  else if (config.spacing == "custom") {
+    console.log("setting custom spacing");
+    flextree.spacing(function(a, b) {
+      return (a.name.match('leaf') || b.name.match('leaf') ? 30 : 0);
+    });
+  }
+  //flextree.spacing(function(a, b) { return a.parent == b.parent ? 0 : 20;});
 
   if (reset) d3.selectAll("#drawing div").remove();
   var svg = d3.select("#drawing").append("div").append('svg');
@@ -230,6 +260,7 @@ function config_from_form() {
   config.data_set = $('#data_set').val();
   config.sizing = $('#sizing').val();
   config.separation = $('#separation').val();
+  config.spacing = $('#spacing').val();
   return config;
 }
 
