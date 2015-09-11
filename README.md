@@ -30,23 +30,11 @@ on the d3.js list.
 See [here](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY)
 for the design.
 
-* [c] Get my test page working again.
-    * Work with d3.js that's been built with make.
 
 
-* [c] wraptree to set x_size and y_size on the wrapper
-* [c] Add a link from every node to its wrapper, as the _wrapper element
-* [c] Set separation from a closure -- no need to make it a closure.
-* [c] Use the new y_size everywhere
-    - [c] replace calls to getYSize
-* [c] Use the new x_size everywhere
-    - [c] replace calls to getXSize
-* [c] Scale when variable_node_size, same as when fixed
+* Add some options for separator/margin to the flextree-test.js file
 
 
-
-
-* At end, delete the _wrapper element (not yet -- leave it in for debugging, for now)
 
 
 
