@@ -33,8 +33,6 @@ for the design.
 * Add tests:
     - That tree.nodeSize([10,10]) behaves the same as
       tree.nodeSize(function(){return [10,10];})
-    - behavior of the separation() function:
-        - call with null resets the state to use default
 
 
 
