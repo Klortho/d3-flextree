@@ -25,14 +25,6 @@ on the d3.js list.
 
 # To do
 
-## Fix separator/margin
-
-See [here](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY)
-for the design.
-
-* Add tests:
-    - That tree.nodeSize([10,10]) behaves the same as
-      tree.nodeSize(function(){return [10,10];})
 
 
 
@@ -48,8 +40,12 @@ for the design.
 
 * Do some from the academic papers - maybe.
 
+- That tree.nodeSize([10,10]) behaves the same as
+  tree.nodeSize(function(){return [10,10];})
 
-## New test page
+
+
+### New test page - maybe, someday.
 
 * Controls for:
     * Sizing - select box, similar to what is there now
