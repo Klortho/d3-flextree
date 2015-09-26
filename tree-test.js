@@ -41,8 +41,13 @@ $(document).ready(function() {
 
   }
 
+  function almost_equals(a, b) {
+    if (a == 0 && b == 0) return true;
+    return ( Math.abs((b-a) / (b+a)) < 0.000000000001 );
+  }
+
   function tree_equals(a, b) {
-    if (a.x != b.x || a.y != b.y) return false;
+    if (!almost_equals(a.x, b.x) || !almost_equals(a.y, b.y)) return false;
     if (a.children && !b.children ||
         b.children && !a.children) return false;
     if (a.children) {
