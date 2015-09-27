@@ -1,32 +1,76 @@
 $(document).ready(function() {
 
-  try {
-    d3.json("test-cases/tests.json", function(error, test_cases) {
-      if (error) { fail(error); return; }
-
-      test_cases.forEach(function(test_case) {
-
-        var layout_engine = d3.layout.tree();
-
-        // gap
-        if (test_case.gap == "separation-1") {
-          layout_engine.separation(function(a, b) { return 1; });
-        }
-
-        d3.json("test-cases/" + test_case.tree, function(error, tree) {
-          if (error) { fail(error); return; }
-          layout_engine.nodes(tree);
-          print_results(test_case, tree);
-
-          var expected_file = "test-cases/" + test_case.name + ".expected.json";
-          d3.json(expected_file, function(error, expected) {
-            if (error) { fail(error); return; }
-            if (!tree_equals(tree, expected)) 
-              fail(test_case.name + " failed: results != expected");
-          })
-        });
+  function getJSON(url) {
+    return fetch(url)
+      .then(function(response) {
+        return response.json()
+      }).catch(function(ex) {
+        console.log('JSON parsing failed for ' + url + ": ", ex)
       });
-    });
+  }
+
+  try {
+
+    getJSON("test-cases/tests.json")
+      .then(
+        function(test_cases) {
+
+          console.log("%o", test_cases);
+
+          // For each test case, fetch the original tree, and the expected.
+          // (This isn't quite ideal -- I'd rather retrieve the tree and the 
+          // expected in parallel, but I couldn't figure out how to do that.)
+          // FIXME: check that I get good error reporting on JSON errors
+          return Promise.all(
+            test_cases.map(function(test_case) {
+                return getJSON("test-cases/" + test_case.tree)
+                  .then(function(tree_json) {
+                    test_case.tree_json = tree_json;
+                    return test_case;
+                  })
+                  .then(function(test_case) {
+                    return getJSON("test-cases/" + test_case.name + ".expected.json")
+                      .then(function(expected_json) {
+                        test_case.expected_json = expected_json;
+                        return test_case;
+                      })
+                  });
+            })
+          );
+        }
+      )
+      .then(
+        function(test_cases) {
+          console.log("%o", test_cases);
+
+          for (var i = 0; i < test_cases.length; ++i) {
+            var test_case = test_cases[i];
+
+
+            var layout_engine = d3.layout.tree();
+
+            // gap
+            if (test_case.gap == "separation-1") {
+              layout_engine.separation(function(a, b) { return 1; });
+            }
+
+            if (test_case.sizing != "default") {
+              // skip any other tests for now
+              continue;
+            }
+
+            var tree = test_case.tree_json;
+
+            layout_engine.nodes(tree);
+            print_results(test_case, tree);
+
+            if (!tree_equals(tree, test_case.expected_json)) 
+              fail(test_case.name + " failed: results != expected");
+
+            break;
+          }
+        }
+      );
   }
   catch(error) {
     alert("failed: " + error);
