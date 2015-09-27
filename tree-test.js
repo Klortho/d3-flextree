@@ -66,10 +66,12 @@ $(document).ready(function() {
             var tree = test_case.tree_json;
 
             layout_engine.nodes(tree);
-            print_results(test_case, tree);
+            print_results(test_case, true, tree);
 
-            if (!tree_equals(tree, test_case.expected_json)) 
+            if (!tree_equals(tree, test_case.expected_json)) {
               fail(test_case.name + " failed: results != expected");
+              print_results(test_case, false, test_case.expected_json);
+            }
 
             break;
           }
@@ -80,9 +82,10 @@ $(document).ready(function() {
     alert("failed: " + error);
   }
 
-  function print_results(test_case, tree) {
+  function print_results(test_case, results, tree) {
     $('body').append(
-      "<div><p>Test " + test_case.name + " results:</p>\n" +
+      "<div><p>Test " + test_case.name + " " +
+      (results ? "results" : "expected") + ":</p>\n" +
       "<pre>" + JSON.stringify(tree, ["x", "y", "children"], 2) +
       "</pre></div>"
     );
