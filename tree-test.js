@@ -57,14 +57,17 @@ $(document).ready(function() {
 
             // sizing
             if (test_case.sizing == "node-size-function") {
+              $('#summary').append('<li>Skipping test ' + test_case.name + 
+                ", because we don't do node-size-function</li>");
               continue;   // d3 tree can't handle variable node sizes
             }
             else if (test_case.sizing == "node-size-fixed") {
               layout_engine.nodeSize([50, 50]);
             }
 
+            $('#summary').append('<li>Running test ' + test_case.name +
+              "</li>");
             var tree = test_case.tree_json;
-
             layout_engine.nodes(tree);
             print_results(test_case, true, tree);
 
@@ -72,8 +75,6 @@ $(document).ready(function() {
               fail(test_case.name + " failed: results != expected");
               print_results(test_case, false, test_case.expected_json);
             }
-
-            break;
           }
         }
       );
