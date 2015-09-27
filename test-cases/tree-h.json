@@ -1,0 +1,56 @@
+{
+    "x_size": 30,
+    "y_size": 30,
+    "children": [
+        {
+            "x_size": 30,
+            "y_size": 60,
+            "children": [
+                {
+                    "x_size": 150,
+                    "y_size": 30
+                }
+            ]
+        },
+        {
+            "x_size": 30,
+            "y_size": 30
+        },
+        {
+            "x_size": 30,
+            "y_size": 60
+        },
+        {
+            "x_size": 30,
+            "y_size": 30
+        },
+        {
+            "x_size": 30,
+            "y_size": 30
+        },
+        {
+            "x_size": 30,
+            "y_size": 30,
+            "children": [
+                {
+                    "x_size": 150,
+                    "y_size": 30,
+                    "children": [
+                        {
+                            "x_size": 150,
+                            "y_size": 30
+                        },
+                        {
+                            "x_size": 150,
+                            "y_size": 30
+                        }
+                    ]
+                },
+                {
+                    "x_size": 150,
+                    "y_size": 30
+                }
+            ]
+        }
+    ]
+}

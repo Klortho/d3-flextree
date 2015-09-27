@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
   function getJSON(url) {
     return fetch(url)
       .then(function(response) {
@@ -54,9 +55,12 @@ $(document).ready(function() {
               layout_engine.separation(function(a, b) { return 1; });
             }
 
-            if (test_case.sizing != "default") {
-              // skip any other tests for now
-              continue;
+            // sizing
+            if (test_case.sizing == "node-size-function") {
+              continue;   // d3 tree can't handle variable node sizes
+            }
+            else if (test_case.sizing == "node-size-fixed") {
+              layout_engine.nodeSize([50, 50]);
             }
 
             var tree = test_case.tree_json;

@@ -1,0 +1,34 @@
+{
+    "x_size": 30,
+    "y_size": 100,
+    "children": [
+        {
+            "x_size": 30,
+            "y_size": 100
+        },
+        {
+            "x_size": 30,
+            "y_size": 30,
+            "children": [
+                {
+                    "x_size": 30,
+                    "y_size": 100
+                }
+            ]
+        },
+        {
+            "x_size": 30,
+            "y_size": 100
+        },
+        {
+            "x_size": 30,
+            "y_size": 30,
+            "children": [
+                {
+                    "x_size": 30,
+                    "y_size": 100
+                }
+            ]
+        }
+    ]
+}
