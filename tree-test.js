@@ -100,9 +100,11 @@ $(document).ready(function() {
 
   function tree_equals(a, b) {
     if (!almost_equals(a.x, b.x) || !almost_equals(a.y, b.y)) return false;
-    if (a.children && !b.children ||
-        b.children && !a.children) return false;
-    if (a.children) {
+
+    var a_num_children = a.children ? a.children.length : 0;
+    var b_num_children = b.children ? b.children.length : 0;
+    if (a_num_children != b_num_children) return false;
+    if (a_num_children > 0) {
       if (a.children.length != b.children.length) return false;
       var i;
       for (i = 0; i < a.children.length; ++i) {
