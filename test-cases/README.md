@@ -40,4 +40,7 @@ Here's some random information about the origins of some of the tests:
 * tree-j - very simple tree to illustrate the difference betwee tree and flextree
 * tree-k, tree-l, tree-m - more flextree test cases
 * tree-n - from the "flare" database
+* tree-o - random tree generated with no x_size or y_size information.
+
+
 

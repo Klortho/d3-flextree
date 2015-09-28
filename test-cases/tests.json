@@ -63,5 +63,15 @@
     "tree": "tree-j.json",
     "sizing": "default",
     "gap": "separation-1"
+  },
+  { "name": "test12",
+    "tree": "tree-o.json",
+    "sizing": "default",
+    "gap": "separation-1"
+  },
+  { "name": "test13",
+    "tree": "tree-o.json",
+    "sizing": "node-size-fixed",
+    "gap": "separation-1"
   } 
 ]
