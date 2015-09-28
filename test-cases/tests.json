@@ -73,5 +73,10 @@
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "separation-1"
-  } 
+  },
+  { "name": "test14",
+    "tree": "tree-o.json",
+    "sizing": "size",
+    "gap": "separation-1"
+  }
 ]

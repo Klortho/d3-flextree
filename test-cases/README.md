@@ -14,7 +14,7 @@ a test, as follows:
 - sizing - one of:
     - default - no sizing option is given to the tree layout object, meaning that
       it will default to size([1, 1]).
-    - size - use size([x_size, y_size]) to define a fixed size for the
+    - size - use size([20, 45]) to define a fixed size for the
       entire resultant drawing.
     - node-size-fixed - use nodeSize([x_size, y_size]) to define a fixed size
       for all nodes

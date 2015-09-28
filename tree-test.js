@@ -64,6 +64,9 @@ $(document).ready(function() {
             else if (test_case.sizing == "node-size-fixed") {
               layout_engine.nodeSize([50, 50]);
             }
+            else if (test_case.sizing == "size") {
+              layout_engine.size([20, 45]);
+            }
 
             $('#summary').append('<li>Running test ' + test_case.name +
               "</li>");
