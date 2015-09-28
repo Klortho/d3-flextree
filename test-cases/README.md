@@ -23,8 +23,14 @@ a test, as follows:
       flextree. The function gets the node's size from its x_size and y_size
       attributes.
 - gap - how the delta between nodes is defined
-    - default - uses the default separation function
+    - default - uses the default separation function, that returns "1" for
+      siblings, or "2" otherwise.
     - "separation-1" - constant separation function that always returns 1.
+    - "separation-custom" - returns 1 for sibs, 1.4 for first cousins (or
+      nephew/uncle) and 2 otherwise
+    - "spacing-1" - translate this so that its results are the same as for
+      "separation-1"
+    - "spacing-custom" - results same as "separation-custom"
 
 
 Here's some random information about the origins of some of the tests:
