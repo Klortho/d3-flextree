@@ -28,9 +28,11 @@ a test, as follows:
     - "separation-1" - constant separation function that always returns 1.
     - "separation-custom" - returns 1 for sibs, 1.4 for first cousins (or
       nephew/uncle) and 2 otherwise
-    - "spacing-1" - translate this so that its results are the same as for
-      "separation-1"
-    - "spacing-custom" - results same as "separation-custom"
+    - "spacing-0" - this will give constant spacing of 0, so that for the original 
+      variable node-size examples, their expected results will be the same as
+      before.
+    - "spacing-custom" - simulate the default separation for variable node
+      sizes: returns 0 for siblings, and the x_size of the root for non-sibs.
 
 
 Here's some random information about the origins of some of the tests:

@@ -1,21 +1,27 @@
 {
+  "x_size": 20,
   "y_size": 70,
   "children": [
     {
+      "x_size": 20,
       "y_size": 200,
       "children": [
         { 
+          "x_size": 20,
           "y_size": 70
         },
         { 
+          "x_size": 20,
           "y_size": 70
         }
       ]
     },
     {
+      "x_size": 20,
       "y_size": 70,
       "children": [
         { 
+          "x_size": 20,
           "y_size": 70
         }
       ]

@@ -65,7 +65,7 @@ $(document).ready(function() {
               layout_engine.nodeSize([50, 50]);
             }
             else if (test_case.sizing == "size") {
-              layout_engine.size([20, 45]);
+              layout_engine.size([200, 100]);
             }
 
             $('#summary').append('<li>Running test ' + test_case.name +
