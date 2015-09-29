@@ -46,6 +46,11 @@ $(document).ready(function() {
 
           for (var i = 0; i < test_cases.length; ++i) {
             var test_case = test_cases[i];
+            if (test_case.skip) {
+              $('#summary').append('<li>Skipping test ' + test_case.name + 
+                ", because skip == true</li>");
+              continue;
+            }
 
 
             var layout_engine = d3.layout.tree();
@@ -53,6 +58,12 @@ $(document).ready(function() {
             // gap
             if (test_case.gap == "separation-1") {
               layout_engine.separation(function(a, b) { return 1; });
+            }
+            else if (test_case.gap == "spacing-0" ||
+                     test_case.gap == "spacing-custom") {
+              $('#summary').append('<li>Skipping test ' + test_case.name + 
+                ", because we don't do gap = '" + test_case.gap + "'</li>");
+              continue;   // d3 tree can't handle variable node sizes
             }
 
             // sizing
