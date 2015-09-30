@@ -51,4 +51,36 @@ Here's some random information about the origins of some of the tests:
 * tree-o - random tree generated with no x_size or y_size information.
 
 
+Combinations:
+
+sizing              gap                 comments
+------              ---                 --------
+default             default
+default             separation-1        test12
+default             separation-custom
+default             spacing-0
+default             spacing-custom
+
+size                default
+size                separation-1        
+size                separation-custom
+size                spacing-0
+size                spacing-custom
+
+node-size-fixed     default
+node-size-fixed     separation-1
+node-size-fixed     separation-custom
+node-size-fixed     spacing-0
+node-size-fixed     spacing-custom
+
+node-size-function  default             No, don't do this, and expect the tree not to have overlapping nodes
+node-size-function  separation-1        No
+node-size-function  separation-custom   No
+node-size-function  spacing-0           Lots of tests use this
+node-size-function  spacing-custom      test19
+
+
+
+
+node-size-function  default  
 

@@ -69,14 +69,12 @@
   },
 
   { "name": "test16",
-    "skip": true,
     "description": "Same tree as test09, but uses separation-1 instead of spacing-0. Results should be identical.",
     "tree": "tree-i.json",
     "sizing": "node-size-fixed",
     "gap": "separation-1"
   },
   { "name": "test17",
-    "skip": true,
     "description": "Same tree as test09, but uses separation-1 and node-size-function. Results should be identical.",
     "tree": "tree-i.json",
     "sizing": "node-size-function",
@@ -90,7 +88,6 @@
     "gap": "spacing-0"
   },
   { "name": "test18",
-    "skip": true,
     "description": "Same as test11, but uses default separation",
     "tree": "tree-j.json",
     "sizing": "node-size-function",
@@ -114,7 +111,6 @@
     "gap": "separation-1"
   },
   { "name": "test15",
-    "skip": true,
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "default"
