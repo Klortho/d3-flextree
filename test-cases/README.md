@@ -26,8 +26,6 @@ a test, as follows:
     - default - uses the default separation function, that returns "1" for
       siblings, or "2" otherwise.
     - "separation-1" - constant separation function that always returns 1.
-    - "separation-custom" - returns 1 for sibs, 1.4 for first cousins (or
-      nephew/uncle) and 2 otherwise
     - "spacing-0" - this will give constant spacing of 0, so that for the original 
       variable node-size examples, their expected results will be the same as
       before.
@@ -55,32 +53,23 @@ Combinations:
 
 sizing              gap                 comments
 ------              ---                 --------
-default             default
+default             default             test20
 default             separation-1        test12
-default             separation-custom
-default             spacing-0
-default             spacing-custom
+default             spacing-0           test21 - same as test12
+default             spacing-custom      test22 - same as test20
 
-size                default
-size                separation-1        
-size                separation-custom
-size                spacing-0
-size                spacing-custom
+size                default             test23
+size                separation-1        test14
+size                spacing-0           test24 - same as test14
+size                spacing-custom      test25 - same as test23
 
-node-size-fixed     default
-node-size-fixed     separation-1
-node-size-fixed     separation-custom
-node-size-fixed     spacing-0
-node-size-fixed     spacing-custom
+node-size-fixed     default             test15
+node-size-fixed     separation-1        test16, test13
+node-size-fixed     spacing-0           test09
+node-size-fixed     spacing-custom      test26 - same as test15
 
 node-size-function  default             No, don't do this, and expect the tree not to have overlapping nodes
 node-size-function  separation-1        No
-node-size-function  separation-custom   No
 node-size-function  spacing-0           Lots of tests use this
 node-size-function  spacing-custom      test19
-
-
-
-
-node-size-function  default  
 

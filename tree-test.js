@@ -46,11 +46,13 @@ $(document).ready(function() {
 
           for (var i = 0; i < test_cases.length; ++i) {
             var test_case = test_cases[i];
+
             if (test_case.skip) {
               $('#summary').append('<li>Skipping test ' + test_case.name + 
                 ", because skip == true</li>");
               continue;
             }
+
 
 
             var layout_engine = d3.layout.tree();
@@ -82,7 +84,8 @@ $(document).ready(function() {
             $('#summary').append('<li>Running test ' + test_case.name +
               "</li>");
             var tree = test_case.tree_json;
-            layout_engine.nodes(tree);
+            var nodes = layout_engine.nodes(tree);
+
             print_results(test_case, true, tree);
 
             if (!tree_equals(tree, test_case.expected_json)) {

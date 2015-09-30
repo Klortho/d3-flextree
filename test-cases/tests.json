@@ -114,5 +114,43 @@
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "default"
+  },
+
+
+  { "name": "test20",
+    "tree": "tree-o.json",
+    "sizing": "default",
+    "gap": "default"
+  },
+  { "name": "test21",
+    "tree": "tree-o.json",
+    "sizing": "default",
+    "gap": "spacing-0"
+  },
+  { "name": "test22",
+    "tree": "tree-o.json",
+    "sizing": "default",
+    "gap": "spacing-custom"
+  },
+  { "name": "test23",
+    "tree": "tree-o.json",
+    "sizing": "size",
+    "gap": "default"
+  },
+  { "name": "test24",
+    "tree": "tree-o.json",
+    "sizing": "size",
+    "gap": "spacing-0"
+  },
+  { "name": "test25",
+    "tree": "tree-o.json",
+    "sizing": "size",
+    "gap": "spacing-custom"
+  },
+  { "name": "test26",
+    "tree": "tree-o.json",
+    "sizing": "node-size-fixed",
+    "gap": "spacing-custom"
   }
+
 ]
