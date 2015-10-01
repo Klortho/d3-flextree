@@ -47,13 +47,15 @@ $(document).ready(function() {
           for (var i = 0; i < test_cases.length; ++i) {
             var test_case = test_cases[i];
 
+            // FIXME: just run test16
+            //continue;
+            //if (test_case.name != 'test22') continue;
+
             if (test_case.skip) {
               $('#summary').append('<li>Skipping test ' + test_case.name + 
                 ", because skip == true</li>");
               continue;
             }
-
-
 
             var layout_engine = d3.layout.tree();
 
@@ -61,18 +63,21 @@ $(document).ready(function() {
             if (test_case.gap == "separation-1") {
               layout_engine.separation(function(a, b) { return 1; });
             }
-            else if (test_case.gap == "spacing-0" ||
-                     test_case.gap == "spacing-custom") {
-              $('#summary').append('<li>Skipping test ' + test_case.name + 
-                ", because we don't do gap = '" + test_case.gap + "'</li>");
-              continue;   // d3 tree can't handle variable node sizes
+            else if (test_case.gap == "spacing-0") {
+              layout_engine.spacing(function(a, b) { return 0; });
+            }
+            else if (test_case.gap == "spacing-custom") {
+              layout_engine.spacing(function(a, b) {
+                return a.parent == b.parent ? 
+                  0 : layout_engine.rootXSize();
+              })
             }
 
             // sizing
             if (test_case.sizing == "node-size-function") {
-              $('#summary').append('<li>Skipping test ' + test_case.name + 
-                ", because we don't do node-size-function</li>");
-              continue;   // d3 tree can't handle variable node sizes
+              layout_engine.nodeSize(function(t) {
+                return [t.x_size, t.y_size];
+              })
             }
             else if (test_case.sizing == "node-size-fixed") {
               layout_engine.nodeSize([50, 50]);

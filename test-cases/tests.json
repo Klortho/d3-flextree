@@ -151,6 +151,22 @@
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "spacing-custom"
+  },
+
+  { "name": "test27",
+    "tree": "tree-p.json",
+    "sizing": "node-size-fixed",
+    "gap": "separation-1"
+  },
+  { "name": "test28",
+    "tree": "tree-q.json",
+    "sizing": "node-size-fixed",
+    "gap": "separation-1"
+  },
+  { "name": "test29",
+    "tree": "tree-q.json",
+    "sizing": "default",
+    "gap": "separation-1"
   }
 
 ]
