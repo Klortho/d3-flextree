@@ -48,12 +48,22 @@
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
+
+
   { "name": "test08",
     "description": "",
     "tree": "tree-h.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
+  { "name": "test30",
+    "description": "",
+    "tree": "tree-h.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-custom"
+  },
+
+
 
   { "name": "test09",
     "description": "",

@@ -134,8 +134,8 @@ $(document).ready(function() {
       }
     }
     return true;
-
   }
+
   function fail(e) {
     alert("Failed: " + (typeof e == "string" ? e : e.stack));
   }
