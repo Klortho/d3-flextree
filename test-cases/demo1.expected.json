@@ -1,0 +1,43 @@
+{
+  "x" : 0.0,
+  "y" : 0.0,
+  "x_size" : 15.0,
+  "y_size" : 70.0,
+  "children" : [ {
+    "x" : -15.0,
+    "y" : 70.0,
+    "x_size" : 15.0,
+    "y_size" : 200.0,
+    "children" : [ {
+      "x" : -22.5,
+      "y" : 270.0,
+      "x_size" : 15.0,
+      "y_size" : 70.0,
+      "children" : [ ],
+      "name" : "leaf0"
+    }, {
+      "x" : -7.5,
+      "y" : 270.0,
+      "x_size" : 15.0,
+      "y_size" : 70.0,
+      "children" : [ ],
+      "name" : "leaf1"
+    } ],
+    "name" : "long"
+  }, {
+    "x" : 15.0,
+    "y" : 70.0,
+    "x_size" : 15.0,
+    "y_size" : 70.0,
+    "children" : [ {
+      "x" : 15.0,
+      "y" : 140.0,
+      "x_size" : 15.0,
+      "y_size" : 70.0,
+      "children" : [ ],
+      "name" : "leaf2"
+    } ],
+    "name" : "short"
+  } ],
+  "name" : "root"
+}

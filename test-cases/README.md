@@ -1,7 +1,3 @@
-# Organization of the work
-
-
-
 # Test cases
 
 Tests are defined in tests.json.  
@@ -52,6 +48,12 @@ Here's some random information about the origins of some of the tests:
 * tree-n - from the "flare" database
 * tree-o - random tree generated with no x_size or y_size information.
 * tree-p - only one node
+* tree-q - very simple, one root with two kids
+* demo1.json - same as tree-j, but with names
+* demo2.json - more complicated tree with names, used to demo flextree
+* demo3.json - complicated tree used to demo flextree
+* flare.json - from the flare database - node sizes could be derived from
+  node names
 
 
 Combinations:

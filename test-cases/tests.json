@@ -177,6 +177,29 @@
     "tree": "tree-q.json",
     "sizing": "default",
     "gap": "separation-1"
+  },
+
+  { "name": "demo1",
+    "tree": "demo1.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-custom"
+  },
+  { "name": "demo2",
+    "tree": "demo2.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-custom"
+  },
+  { "name": "demo3",
+    "tree": "demo3.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-custom"
+  },
+  { "name": "flare",
+    "skip": true,
+    "description": "For demo, not testing",
+    "tree": "flare.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-custom"
   }
 
 ]

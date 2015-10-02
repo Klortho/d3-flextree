@@ -1,0 +1,134 @@
+{
+  "x" : 0.0,
+  "y" : 0.0,
+  "x_size" : 15.0,
+  "y_size" : 80.0,
+  "children" : [ {
+    "x" : -52.5,
+    "y" : 80.0,
+    "x_size" : 15.0,
+    "y_size" : 150.0,
+    "children" : [ {
+      "x" : -52.5,
+      "y" : 230.0,
+      "x_size" : 15.0,
+      "y_size" : 150.0,
+      "children" : [ {
+        "x" : -75.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : -60.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : -45.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : -30.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      } ],
+      "name" : "long"
+    } ],
+    "name" : "long"
+  }, {
+    "x" : 0.0,
+    "y" : 80.0,
+    "x_size" : 15.0,
+    "y_size" : 80.0,
+    "children" : [ {
+      "x" : 0.0,
+      "y" : 160.0,
+      "x_size" : 15.0,
+      "y_size" : 80.0,
+      "children" : [ {
+        "x" : -22.5,
+        "y" : 240.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : -7.5,
+        "y" : 240.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : 7.5,
+        "y" : 240.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : 22.5,
+        "y" : 240.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      } ],
+      "name" : "short"
+    } ],
+    "name" : "short"
+  }, {
+    "x" : 52.5,
+    "y" : 80.0,
+    "x_size" : 15.0,
+    "y_size" : 150.0,
+    "children" : [ {
+      "x" : 52.5,
+      "y" : 230.0,
+      "x_size" : 15.0,
+      "y_size" : 150.0,
+      "children" : [ {
+        "x" : 30.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : 45.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : 60.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      }, {
+        "x" : 75.0,
+        "y" : 380.0,
+        "x_size" : 15.0,
+        "y_size" : 80.0,
+        "children" : [ ],
+        "name" : "leaf"
+      } ],
+      "name" : "long"
+    } ],
+    "name" : "long"
+  } ],
+  "name" : "root"
+}

@@ -1,0 +1,135 @@
+{
+  "name": "root",
+  "x_size": 15,
+  "y_size": 80,
+  "children": [
+    {
+      "name": "long",
+      "x_size": 15,
+      "y_size": 150,
+      "children": [
+        {
+          "name": "long",
+          "x_size": 15,
+          "y_size": 150,
+          "children": [
+            { 
+              "name": "leaf",
+              "x_size": 200,
+              "y_size": 80
+            },
+            { 
+              "name": "short",
+              "x_size": 15,
+              "y_size": 80,
+              "children": [
+                {
+                  "name": "leaf",
+                  "x_size": 15,
+                  "y_size": 80
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "short",
+      "x_size": 15,
+      "y_size": 80,
+      "children": [
+        {
+          "name": "short",
+          "x_size": 15,
+          "y_size": 80,
+          "children": [
+            { 
+              "name": "short",
+              "x_size": 15,
+              "y_size": 80,
+              "children": [
+                {
+                  "name": "long",
+                  "x_size": 15,
+                  "y_size": 300,
+                  "children": [
+                    { 
+                      "name": "leaf",
+                      "x_size": 15,
+                      "y_size": 80
+                    },
+                    { 
+                      "name": "leaf",
+                      "x_size": 15,
+                      "y_size": 80
+                    },
+                    { 
+                      "name": "leaf",
+                      "x_size": 15,
+                      "y_size": 80
+                    },
+                    { 
+                      "name": "leaf",
+                      "x_size": 15,
+                      "y_size": 80
+                    }
+                  ]
+                }
+              ]
+            },
+            { 
+              "name": "leaf",
+              "x_size": 15,
+              "y_size": 80
+            },
+            { 
+              "name": "leaf",
+              "x_size": 15,
+              "y_size": 80
+            },
+            { 
+              "name": "leaf",
+              "x_size": 15,
+              "y_size": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "long",
+      "x_size": 15,
+      "y_size": 150,
+      "children": [
+        {
+          "name": "long",
+          "x_size": 15,
+          "y_size": 150,
+          "children": [
+            { 
+              "name": "leaf",
+              "x_size": 15,
+              "y_size": 80
+            },
+            { 
+              "name": "leaf",
+              "x_size": 300,
+              "y_size": 80
+            },
+            { 
+              "name": "leaf",
+              "x_size": 15,
+              "y_size": 80
+            },
+            { 
+              "name": "leaf",
+              "x_size": 15,
+              "y_size": 80
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
