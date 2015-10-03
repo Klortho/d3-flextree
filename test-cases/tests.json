@@ -209,9 +209,9 @@
   },
   { "name": "flare",
     "skip": true,
-    "description": "For demo, not testing",
+    "description": "Finally, here's the often-seen \"flare\" data, rendered with variable node size. This is for demo only, not used in testing.",
     "tree": "flare.json",
-    "sizing": "node-size-function",
+    "sizing": "*special*",
     "gap": "spacing-custom"
   }
 

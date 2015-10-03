@@ -77,7 +77,42 @@ $(document).ready(function() {
       }
 
 
-      var nodes = engine.nodes(tree);
+      // First get the bag of nodes in the right order
+      var nodes = d3.layout.hierarchy()(tree);
+
+      // Then get started drawing, including, in the case of flare,
+      // the text for each node, which is needed to determine the
+      // node sizes, which are used in the layout algorithm.
+      var svg = d3.select("#drawing").append("div").append('svg');
+      var svg_g = svg.append("g");
+
+      var last_id = 0;
+      var node = svg_g.selectAll(".node")
+          .data(nodes, function(d) { 
+            return d.id || (d.id = ++last_id); 
+          })
+        .enter().append("g")
+          .attr("class", "node")
+      ;
+
+      // In the case of flare, create the node text now, which is used
+      // in the layout.
+      if (test_case.name == "flare") {
+        var text_elements = node.append("text")
+          .attr({
+            "id": function(d) { return d.id; },
+            dx: 5,
+            dy: "0.35em",
+          })
+          .text(function(d) { return d.name; })
+        ;
+        engine.nodeSize(function(d) {
+          return [25, document.getElementById(d.id).getBBox()["width"] + 30];
+        });
+      }
+
+      // *Now* do the layout
+      nodes = engine.nodes(tree);
 
       // Get the extents, average node area, etc.
       function node_extents(n) {
@@ -106,7 +141,7 @@ $(document).ready(function() {
       var area_ave = area_sum / nodes.length;
       // scale such that the average node size is 400 px^2
       console.log("area_ave = " + area_ave);
-      var scale = 80 / Math.sqrt(area_ave);
+      var scale = test_case.name == "flare" ? 1 : 80 / Math.sqrt(area_ave);
       console.log("extents = %o", {
         xmin: xmin, ymin: ymin, xmax: xmax, ymax: ymax,
       });
@@ -132,27 +167,14 @@ $(document).ready(function() {
       var nodebox_vertical_margin = Math.min(y_size_min * scale, 3);
 
 
-
-
-      var svg = d3.select("#drawing").append("div").append('svg');
-      var svg_g = svg.append("g");
-
-      var last_id = 0;
-
-      var node = svg_g.selectAll(".node")
-          .data(nodes, function(d) { 
-            return d.id || (d.id = ++last_id); 
-          })
-        .enter().append("g")
-          .attr("class", "node")
-      ;
-
       function rand() {
         return 80 + Math.floor(Math.random() * 100);
       }
-      function rand_color() {
-        return "rgb(" + rand() + "," + rand() + "," + rand() + ")";
-      }
+      var filler = test_case.name != "flare" 
+          ? function() {
+              return "fill: rgb(" + rand() + "," + rand() + "," + rand() + ")";
+            }
+          : "fill: none";
   
       // Reposition everything according to the layout
       node.attr("transform", function(d) { 
@@ -175,24 +197,11 @@ $(document).ready(function() {
             height: function(d) { 
               return d.x_size * scale - nodebox_vertical_margin; 
             },
-            style: function(d) { return "fill: " + rand_color() },
+            style: filler,
           })
       ;
-/*
-        var text_elements = node.append("text")
-            .attr({
-              "id": function(d) { return d.id; },
-              dy: "0.35em",
-            })
-            .text(function(d) { return d.name; });
 
-        text_elements.attr({
-          "dx": function(d) { 
-            return (d.width - nodebox_right_margin) / 2;
-          },
-          "text-anchor": "middle",
-        });
-*/
+
 
       // This controls the lines between the nodes; see
       // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
@@ -231,7 +240,7 @@ $(document).ready(function() {
           " >></a></p>")
       }
       else {
-        $('drawing').after("<p>No more.</p>");
+        $('#drawing').after("<p>That's it!</p>");
       }
     })
 
