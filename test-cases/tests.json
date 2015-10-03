@@ -11,7 +11,6 @@
     "sizing": "node-size-function",
     "gap": "default"
   },
-
   { "name": "test01",
     "description": "One (of many) randomly generated trees, for testing",
     "tree": "tree-a.json",
@@ -24,7 +23,6 @@
     "sizing": "node-size-function",
     "gap": "spacing-custom"
   },
-
   { "name": "test02",
     "description": "Another randomly generated tree",
     "tree": "tree-b.json",
@@ -55,15 +53,12 @@
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
-
   { "name": "test07",
     "description": "From Figure 6 of <a href='http://oai.cwi.nl/oai/asset/21856/21856B.pdf'>\"Drawing Non-layered Tidy Trees in Linear Time</a>\".",
     "tree": "tree-g.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
-
-
   { "name": "test08",
     "description": "Mirror image of test07, illustrating that \"aesthetic 5\" is satisfied.",
     "tree": "tree-h.json",
@@ -76,9 +71,6 @@
     "sizing": "node-size-function",
     "gap": "spacing-custom"
   },
-
-
-
   { "name": "test09",
     "description": "",
     "tree": "tree-i.json",
@@ -91,7 +83,6 @@
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
-
   { "name": "test16",
     "description": "Same tree as test09, but uses separation-1 instead of spacing-0. Results are again identical.",
     "tree": "tree-i.json",
@@ -104,9 +95,6 @@
     "sizing": "node-size-function",
     "gap": "separation-1"
   },
-
-
-
   { "name": "test20",
     "description": "A tree with fixed node sizes, layed out using the <a href='https://github.com/mbostock/d3/wiki/Tree-Layout#size'>default size</a> (which specifies the size of the whole drawing), and <a href='https://github.com/mbostock/d3/wiki/Tree-Layout#separation'>default separation</a>. The next several tests use the same tree, with varying permutations of these variables. They comprise regression tests (that this new tree layout implementation works identically to the old one) and test that the new spacing(0) function works the same as separation(1), for fixed-node-size trees.",
     "tree": "tree-o.json",
@@ -175,9 +163,6 @@
     "sizing": "node-size-fixed",
     "gap": "spacing-custom"
   },
-
-
-
   { "name": "test27",
     "description": "The simplest tree there is (useful for debugging).",
     "tree": "tree-p.json",
@@ -196,7 +181,6 @@
     "sizing": "default",
     "gap": "separation-1"
   },
-
   { "name": "demo1",
     "tree": "demo1.json",
     "sizing": "node-size-function",
@@ -214,5 +198,4 @@
     "sizing": "*special*",
     "gap": "spacing-custom"
   }
-
 ]

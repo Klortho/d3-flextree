@@ -1,0 +1,30 @@
+{
+  "name": "d3-flextree",
+  "version": "1.0.0",
+  "main": "d3.flextree.js",
+  "author": {
+    "name": "Chris Maloney",
+    "url": "http://chrismaloney.org"
+  },
+  "description": "An enhanced tree layout algorithm that allows variable node sizes.",
+  "license": "WTFPL",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/klortho/d3-flextree.git"
+  },
+  "keywords": [
+    "visualization",
+    "2d",
+    "tree",
+    "d3",
+    "plugin"
+  ],
+  "dependencies": {
+    "d3": "^3.5.6"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^1.2.0"
+  }
+}
