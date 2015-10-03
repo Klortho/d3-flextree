@@ -1,10 +1,15 @@
+#drawing {
+    max-width: 1000px;
+    max-height: 500px;
+    overflow: auto;
+    border: 3px solid grey;
+}
 svg { 
   border: 1px solid black; 
   font: 10px sans-serif;
 }
 
 .node rect {
-  fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
 }

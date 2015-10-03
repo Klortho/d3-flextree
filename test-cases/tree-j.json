@@ -1,26 +1,32 @@
 {
+  "name": "root",
   "x_size": 20,
   "y_size": 70,
   "children": [
     {
+      "name": "long",
       "x_size": 20,
       "y_size": 200,
       "children": [
         { 
+          "name": "leaf0",
           "x_size": 20,
           "y_size": 70
         },
         { 
+          "name": "leaf1",
           "x_size": 20,
           "y_size": 70
         }
       ]
     },
     {
+      "name": "short",
       "x_size": 20,
       "y_size": 70,
       "children": [
         { 
+          "name": "leaf2",
           "x_size": 20,
           "y_size": 70
         }

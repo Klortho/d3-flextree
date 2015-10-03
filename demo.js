@@ -12,38 +12,36 @@ $(document).ready(function() {
 
 
 
-  var test_case,
+  var test_cases,
+      test_case,
+      test_case_num,
       engine;
 
-  // FIXME: these are going to need to be dynamic, based on average node size:
-
-  // The node box is drawn smaller than the actual node width, to
-  // allow room for the diagonal
-  var nodebox_right_margin = 0;
-  // And smaller than the actual node height, for spacing
-  var nodebox_vertical_margin = 0;
 
   getJSON("test-cases/tests.json")
-    .then(function(test_cases) {
+    .then(function(_test_cases) {
+      test_cases = _test_cases;
 
       console.log("%o", test_cases);
 
       // which test?
       var m = document.location.href.match(/.*?\?(.*)/);
-      var test = m ? m[1] : "test01";
+      var test = m ? m[1] : test_cases[0].name;
       $('#test-name').text(test);
 
-      test_case = test_cases.find(function(tc) {
+      test_case_num = test_cases.findIndex(function(tc) {
         return tc.name == test;
       })
-      if (!test_case) {
+      if (test_case_num == -1) {
         $('#header').after("<p>not found</p>");
         throw("Requested test case not found");
       }
+      test_case = test_cases[test_case_num];
+      if (test_case.description) {
+        $('#header').after("<p>" + test_case.description + "</p>");
+      }
 
-
-
-      engine = d3.layout.tree();
+      engine = d3.layout.tree().setNodeSizes(true);
 
       return getJSON("test-cases/" + test_case.tree);
     })
@@ -78,56 +76,108 @@ $(document).ready(function() {
         engine.size([200, 100]);
       }
 
+
       var nodes = engine.nodes(tree);
+
+      // Get the extents, average node area, etc.
+      function node_extents(n) {
+        return [n.x - n.x_size/2, n.y,
+                n.x + n.x_size/2, n.y + n.y_size];
+      }
+      var root_extents = node_extents(nodes[0]);
+      var xmin = root_extents[0],
+          ymin = root_extents[1],
+          xmax = root_extents[2],
+          ymax = root_extents[3],
+          area_sum = (xmax - xmin) * (ymax - ymin),
+          x_size_min = nodes[0].x_size,
+          y_size_min = nodes[0].y_size;
+
+      nodes.slice(1).forEach(function(n) {
+        var ne = node_extents(n);
+        xmin = Math.min(xmin, ne[0]);
+        ymin = Math.min(ymin, ne[1]);
+        xmax = Math.max(xmax, ne[2]);
+        ymax = Math.max(ymax, ne[3]);
+        area_sum += (ne[2] - ne[0]) * (ne[3] - ne[1]);
+        x_size_min = Math.min(x_size_min, n.x_size);
+        y_size_min = Math.min(y_size_min, n.y_size);
+      });
+      var area_ave = area_sum / nodes.length;
+      // scale such that the average node size is 400 px^2
+      console.log("area_ave = " + area_ave);
+      var scale = 80 / Math.sqrt(area_ave);
+      console.log("extents = %o", {
+        xmin: xmin, ymin: ymin, xmax: xmax, ymax: ymax,
+      });
+      console.log("scale = " + scale);
+
+      // Functions to get the derived svg coordinates given the tree node
+      // coordinates.
+      // Note that the x-y orientations between the svg and the tree drawing 
+      // are reversed.
+
+      function svg_x(node_y) { return (node_y - ymin) * scale; }
+      function svg_y(node_x) { return (node_x - xmin) * scale; }
+
+
+      // FIXME: need to implement these -- the max value should not
+      // be scaled.
+
+      // The node box is drawn smaller than the actual node width, to
+      // allow room for the diagonal. Note that these are in units of
+      // svg drawing coordinates (not tree node coordinates)
+      var nodebox_right_margin = Math.min(x_size_min * scale, 10);
+      // And smaller than the actual node height, for spacing
+      var nodebox_vertical_margin = Math.min(y_size_min * scale, 3);
+
+
+
 
       var svg = d3.select("#drawing").append("div").append('svg');
       var svg_g = svg.append("g");
 
       var last_id = 0;
 
-      var diagonal = d3.svg.diagonal()
-          .source(function(d, i) {
-            var s = d.source;
-            return {
-                x: s.x, 
-                y: s.y + (s.y_size ? s.y_size - nodebox_right_margin: 0),
-            };
+      var node = svg_g.selectAll(".node")
+          .data(nodes, function(d) { 
+            return d.id || (d.id = ++last_id); 
           })
-          .projection(function(d) { 
-            return [d.y, d.x]; 
-          });
+        .enter().append("g")
+          .attr("class", "node")
+      ;
 
-
-        var node = svg_g.selectAll(".node")
-            .data(nodes, function(d) { 
-              return d.id || (d.id = ++last_id); 
-            })
-          .enter().append("g")
-            .attr("class", "node")
-        ;
-
-
-        // Reposition everything according to the layout
-        node.attr("transform", function(d) { 
-            return "translate(" + d.y + "," + d.x + ")"; 
+      function rand() {
+        return 80 + Math.floor(Math.random() * 100);
+      }
+      function rand_color() {
+        return "rgb(" + rand() + "," + rand() + "," + rand() + ")";
+      }
+  
+      // Reposition everything according to the layout
+      node.attr("transform", function(d) { 
+          return "translate(" + svg_x(d.y) + "," + svg_y(d.x) + ")"; 
+        })
+        .append("rect")
+          .attr("data-id", function(d) {
+            return d.id;
           })
-          .append("rect")
-            .attr("data-id", function(d) {
-              return d.id;
-            })
-            .attr({
-              x: 0,
-              y: function(d) { 
-                return -(d.x_size - nodebox_vertical_margin) / 2; 
-              },
-              rx: 6,
-              ry: 6,
-              width: function(d) { return d.y_size - nodebox_right_margin; },
-              height: function(d) { 
-                return d.x_size - nodebox_vertical_margin; 
-              },
-            });
-
+          .attr({
+            x: 0,
+            y: function(d) { 
+              return -(d.x_size * scale - nodebox_vertical_margin) / 2; 
+            },
+            rx: 6,
+            ry: 6,
+            width: function(d) { 
+              return d.y_size * scale - nodebox_right_margin;
+            },
+            height: function(d) { 
+              return d.x_size * scale - nodebox_vertical_margin; 
+            },
+            style: function(d) { return "fill: " + rand_color() },
+          })
+      ;
 /*
         var text_elements = node.append("text")
             .attr({
@@ -142,41 +192,47 @@ $(document).ready(function() {
           },
           "text-anchor": "middle",
         });
-
-        var links = flextree.links(nodes);
-        var links = svg_g.selectAll(".link")
-            .data(links)
-          .enter().append("path")
-            .attr("class", "link")
-            .attr("d", diagonal);
-
-        // Set the svg drawing size and translation
-        // Note that the x-y orientations between the svg and the tree drawing are reversed
-        var min_x = null,
-            max_x = null,
-            min_y = null,
-            max_y = null;
-        var nodes_to_visit = [root],
-            node;
-        while ((node = nodes_to_visit.pop()) != null) {
-          min_x = min_x == null || node.y < min_x ? node.y : min_x;
-          max_x = max_x == null || node.y > max_x ? node.y : max_x;
-          min_y = min_y == null || node.x < min_y ? node.x : min_y;
-          max_y = max_y == null || node.x > max_y ? node.x : max_y;
-          var n, children;
-          if ((children = node.children) && (n = children.length)) {
-            while (--n >= 0) nodes_to_visit.push(children[n]);
-          }
-        }
-        svg.attr({
-          width: max_x - min_x + fixed_node_big[1],
-          height: max_y - min_y + 200,
-        });
-        svg_g.attr("transform", "translate(0, " + (-min_y + 100) + ")");
-      });
-    }
-  });
 */
+
+      // This controls the lines between the nodes; see
+      // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
+      var diagonal = d3.svg.diagonal()
+        .source(function(d, i) {
+          var s = d.source;
+          return {
+            x: s.x, 
+            y: s.y + s.y_size - nodebox_right_margin/scale,
+          };
+        })
+        .projection(function(d) { 
+          return [svg_x(d.y), svg_y(d.x)]; 
+        })
+      ;
+
+      var links = engine.links(nodes);
+      var links = svg_g.selectAll(".link")
+          .data(links)
+        .enter().append("path")
+          .attr("class", "link")
+          .attr("d", diagonal);
+
+      // Set the svg drawing size and translation
+
+      svg.attr({
+        width: (ymax - ymin) * scale,
+        height: (xmax - xmin) * scale,
+      });
+
+      // Add a link to the next test case
+      if (test_case_num < test_cases.length - 1) {
+        var next_tc = test_cases[test_case_num + 1];
+        $('#drawing').after(
+          "<p><a href='demo.html?" + next_tc.name + "'>>> " + next_tc.name + 
+          " >></a></p>")
+      }
+      else {
+        $('drawing').after("<p>No more.</p>");
+      }
     })
 
     .catch(function(err) {

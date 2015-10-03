@@ -80,3 +80,23 @@ node-size-function  separation-1        No
 node-size-function  spacing-0           Lots of tests use this
 node-size-function  spacing-custom      test19
 
+
+# Changes to the D3 tree API
+
+Added these:
+
+<a name='setNodeSizes' href='#setNodeSizes'>#</a>  tree.<b>setNodeSizes</b>([boolean])
+
+If called without an argument, this returns the current setting.  If called
+with a boolean, turns on or off the setNodeSizes feature. If that feature is
+on, then the layout engine will set the x_size and y_size attributes of
+every node object in the tree.
+
+Default is off.
+
+<a name="rootXSize" href="#rootXSize">#</a> tree.<b>rootXSize</b>()
+
+This could be useful during callbacks, like separation(). It returns the
+x_size of the root node of the tree that's currently being layed out.
+
+

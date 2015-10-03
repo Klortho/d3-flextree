@@ -1,37 +1,50 @@
 [
+  { "name": "test11",
+    "description": "Simple tree to illustrate the effect of variable node sizes.",
+    "tree": "tree-j.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-0"
+  },
+  { "name": "test18",
+    "description": "Same as test11, but uses the default separation",
+    "tree": "tree-j.json",
+    "sizing": "node-size-function",
+    "gap": "default"
+  },
+
   { "name": "test01",
-    "description": "",
+    "description": "One (of many) randomly generated trees, for testing",
     "tree": "tree-a.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
   { "name": "test19",
-    "description": "Same as test01, but with spacing-custom",
+    "description": "Same as test01, but with custom spacing. Note how the spacing is based on the root node's size.",
     "tree": "tree-a.json",
     "sizing": "node-size-function",
     "gap": "spacing-custom"
   },
 
   { "name": "test02",
-    "description": "",
+    "description": "Another randomly generated tree",
     "tree": "tree-b.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
   { "name": "test03",
-    "description": "",
+    "description": "Another randomly generated tree",
     "tree": "tree-c.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
   { "name": "test04",
-    "description": "",
+    "description": "Another randomly generated tree",
     "tree": "tree-d.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
   { "name": "test05",
-    "description": "",
+    "description": "Another randomly generated tree",
     "tree": "tree-e.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
@@ -42,8 +55,9 @@
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
+
   { "name": "test07",
-    "description": "",
+    "description": "From Figure 6 of <a href='http://oai.cwi.nl/oai/asset/21856/21856B.pdf'>\"Drawing Non-layered Tidy Trees in Linear Time</a>\".",
     "tree": "tree-g.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
@@ -51,13 +65,13 @@
 
 
   { "name": "test08",
-    "description": "",
+    "description": "Mirror image of test07, illustrating that \"aesthetic 5\" is satisfied.",
     "tree": "tree-h.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
   { "name": "test30",
-    "description": "",
+    "description": "Same as test08, but with custom spacing",
     "tree": "tree-h.json",
     "sizing": "node-size-function",
     "gap": "spacing-custom"
@@ -72,108 +86,112 @@
     "gap": "spacing-0"
   },
   { "name": "test10",
-    "description": "Same tree as test09, uses node-size-function instead of fixed. Results should be identical.",
+    "description": "Same tree as test09, uses node-size-function instead of fixed. Results are identical.",
     "tree": "tree-i.json",
     "sizing": "node-size-function",
     "gap": "spacing-0"
   },
 
   { "name": "test16",
-    "description": "Same tree as test09, but uses separation-1 instead of spacing-0. Results should be identical.",
+    "description": "Same tree as test09, but uses separation-1 instead of spacing-0. Results are again identical.",
     "tree": "tree-i.json",
     "sizing": "node-size-fixed",
     "gap": "separation-1"
   },
   { "name": "test17",
-    "description": "Same tree as test09, but uses separation-1 and node-size-function. Results should be identical.",
+    "description": "Same tree as test09, but uses separation-1 and node-size-function. Results are again identical.",
     "tree": "tree-i.json",
     "sizing": "node-size-function",
     "gap": "separation-1"
   },
 
 
-  { "name": "test11",
-    "tree": "tree-j.json",
-    "sizing": "node-size-function",
-    "gap": "spacing-0"
-  },
-  { "name": "test18",
-    "description": "Same as test11, but uses default separation",
-    "tree": "tree-j.json",
-    "sizing": "node-size-function",
+
+  { "name": "test20",
+    "description": "A tree with fixed node sizes, layed out using the <a href='https://github.com/mbostock/d3/wiki/Tree-Layout#size'>default size</a> (which specifies the size of the whole drawing), and <a href='https://github.com/mbostock/d3/wiki/Tree-Layout#separation'>default separation</a>. The next several tests use the same tree, with varying permutations of these variables. They comprise regression tests (that this new tree layout implementation works identically to the old one) and test that the new spacing(0) function works the same as separation(1), for fixed-node-size trees.",
+    "tree": "tree-o.json",
+    "sizing": "default",
     "gap": "default"
   },
 
-
   { "name": "test12",
+    "description": "Same tree as test20, but with a fixed separation of 1.",
     "tree": "tree-o.json",
     "sizing": "default",
     "gap": "separation-1"
   },
   { "name": "test13",
+    "description": "Same tree as test20, layed out with fixed, specified node size, and fixed separation of 1.",
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "separation-1"
   },
   { "name": "test14",
+    "description": "Same tree as test20, uses a custom (drawing) size, and fixed separation of 1.",
     "tree": "tree-o.json",
     "sizing": "size",
     "gap": "separation-1"
   },
   { "name": "test15",
+    "description": "Same tree as test20, fixed node size; default separation.",
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "default"
   },
 
-
-  { "name": "test20",
-    "tree": "tree-o.json",
-    "sizing": "default",
-    "gap": "default"
-  },
   { "name": "test21",
+    "description": "Same tree as test20, default size, with a spacing function of 0 (which works the same as separation-1, for fixed-node-sized trees).",
     "tree": "tree-o.json",
     "sizing": "default",
     "gap": "spacing-0"
   },
   { "name": "test22",
+    "description": "Same tree as test20, default size, custom spacing.",
     "tree": "tree-o.json",
     "sizing": "default",
     "gap": "spacing-custom"
   },
   { "name": "test23",
+    "description": "Same tree as test20, custom drawing size, default separation.",
     "tree": "tree-o.json",
     "sizing": "size",
     "gap": "default"
   },
   { "name": "test24",
+    "description": "Same tree as test20, custom drawing size, spacing-0.",
     "tree": "tree-o.json",
     "sizing": "size",
     "gap": "spacing-0"
   },
   { "name": "test25",
+    "description": "Same tree as test20, custom drawing size, custom spacing.",
     "tree": "tree-o.json",
     "sizing": "size",
     "gap": "spacing-custom"
   },
   { "name": "test26",
+    "description": "Same tree as test20, fixed node size, custom spacing.",
     "tree": "tree-o.json",
     "sizing": "node-size-fixed",
     "gap": "spacing-custom"
   },
 
+
+
   { "name": "test27",
+    "description": "The simplest tree there is (useful for debugging).",
     "tree": "tree-p.json",
     "sizing": "node-size-fixed",
     "gap": "separation-1"
   },
   { "name": "test28",
+    "description": "Another simple one, with fixed node size.",
     "tree": "tree-q.json",
     "sizing": "node-size-fixed",
     "gap": "separation-1"
   },
   { "name": "test29",
+    "description": "Same as test28, but with default size. Note that the fact that this is not square, even though the default size is 1X1, is an artifact of the way current D3 tree layout algorithm works - it doesn't take into account the y-size of the nodes.",
     "tree": "tree-q.json",
     "sizing": "default",
     "gap": "separation-1"
@@ -186,11 +204,6 @@
   },
   { "name": "demo2",
     "tree": "demo2.json",
-    "sizing": "node-size-function",
-    "gap": "spacing-custom"
-  },
-  { "name": "demo3",
-    "tree": "demo3.json",
     "sizing": "node-size-function",
     "gap": "spacing-custom"
   },
