@@ -2,7 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'
+      ></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'
+      ></script>
     <script src="../d3-flextree.js"></script>
     <script src='test.js'></script>
   </head>
@@ -10,6 +13,8 @@
     <p>This page is a harness for test JavaScript that will read each of 
       the test case trees, from the test-cases subdirectory, lay them
       out with D3, and then compare the results with those expected.</p>
+    <p>Using layout engine <span id='layout-engine'>flextree</span> from
+      the d3-flextree plugin.</p>
     <div>
       <p>Summary:</p>
       <ul id='summary'></ul>

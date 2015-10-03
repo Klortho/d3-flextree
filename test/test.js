@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+  var engine_name = $('#layout-engine').text();
 
   function getJSON(url) {
     return fetch(url)
@@ -30,6 +31,7 @@ $(document).ready(function() {
                     return test_case;
                   })
                   .then(function(test_case) {
+                    if (test_case.name == "flare") return test_case;
                     return getJSON("cases/" + test_case.name + ".expected.json")
                       .then(function(expected_json) {
                         test_case.expected_json = expected_json;
@@ -57,7 +59,7 @@ $(document).ready(function() {
               continue;
             }
 
-            var layout_engine = d3.layout.tree();
+            var layout_engine = d3.layout[engine_name]();
 
             // gap
             if (test_case.gap == "separation-1") {
