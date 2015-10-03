@@ -233,15 +233,16 @@ $(document).ready(function() {
       });
 
       // Add a link to the next test case
+      var nav;
       if (test_case_num < test_cases.length - 1) {
         var next_tc = test_cases[test_case_num + 1];
-        $('#drawing').after(
-          "<p><a href='demo.html?" + next_tc.name + "'>>> " + next_tc.name + 
-          " >></a></p>")
+        nav = "<a href='index.html?" + next_tc.name + "'>>> " + 
+              next_tc.name + " >></a>";
       }
       else {
-        $('#drawing').after("<p>That's it!</p>");
+        nav = "That's it!";
       }
+      $('#nav').html(nav);
     })
 
     .catch(function(err) {

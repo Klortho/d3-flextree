@@ -1,8 +1,9 @@
 #drawing {
-    max-width: 1000px;
-    max-height: 500px;
     overflow: auto;
-    border: 3px solid grey;
+    resize: both;
+}
+#nav {
+  float: right;
 }
 svg { 
   border: 1px solid black; 
