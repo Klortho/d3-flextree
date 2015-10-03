@@ -18,7 +18,7 @@ $(document).ready(function() {
       engine;
 
 
-  getJSON("test-cases/tests.json")
+  getJSON("test/cases/tests.json")
     .then(function(_test_cases) {
       test_cases = _test_cases;
 
@@ -43,7 +43,7 @@ $(document).ready(function() {
 
       engine = d3.layout.tree().setNodeSizes(true);
 
-      return getJSON("test-cases/" + test_case.tree);
+      return getJSON("test/cases/" + test_case.tree);
     })
     .then(function(tree) {
       console.log("tree = %o", tree);

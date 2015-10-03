@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   try {
 
-    getJSON("test-cases/tests.json")
+    getJSON("cases/tests.json")
       .then(
         function(test_cases) {
 
@@ -24,13 +24,13 @@ $(document).ready(function() {
           // FIXME: check that I get good error reporting on JSON errors
           return Promise.all(
             test_cases.map(function(test_case) {
-                return getJSON("test-cases/" + test_case.tree)
+                return getJSON("cases/" + test_case.tree)
                   .then(function(tree_json) {
                     test_case.tree_json = tree_json;
                     return test_case;
                   })
                   .then(function(test_case) {
-                    return getJSON("test-cases/" + test_case.name + ".expected.json")
+                    return getJSON("cases/" + test_case.name + ".expected.json")
                       .then(function(expected_json) {
                         test_case.expected_json = expected_json;
                         return test_case;
