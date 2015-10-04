@@ -197,5 +197,11 @@
     "tree": "flare.json",
     "sizing": "*special*",
     "gap": "spacing-custom"
+  },
+  { "name": "zombo",
+    "description": "Zombo's tree.",
+    "tree": "zombo.json",
+    "sizing": "node-size-fixed",
+    "gap": "spacing-0"
   }
 ]
