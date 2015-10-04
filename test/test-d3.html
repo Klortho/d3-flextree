@@ -2,8 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
-    <script src="d3/d3.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'
+      ></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'
+      ></script>
     <script src='test.js'></script>
   </head>
   <body>
@@ -11,7 +13,8 @@
       the test case trees, from the test-cases subdirectory, lay them
       out with D3, and then compare the results with those expected.</p>
     <p>Using layout engine <span id='layout-engine'>tree</span> from
-      the standard D3, version 3.5.6.</p>
+      the standard D3, version 3.5.6. This runs only those tests that
+      are <span id='test-set'>backwards-compatible</span>.</p>
     <div>
       <p>Summary:</p>
       <ul id='summary'></ul>

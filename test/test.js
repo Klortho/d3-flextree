@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
   var engine_name = $('#layout-engine').text();
+  var test_compat = ($('#test-set').text() == "backwards-compatible");
 
   function getJSON(url) {
     return fetch(url)
@@ -45,6 +46,9 @@ $(document).ready(function() {
       .then(
         function(test_cases) {
           console.log("%o", test_cases);
+          function summarize(msg) {
+            $('#summary').append('<li>' + msg + "</li>");
+          }
 
           for (var i = 0; i < test_cases.length; ++i) {
             var test_case = test_cases[i];
@@ -54,8 +58,8 @@ $(document).ready(function() {
             //if (test_case.name != 'test22') continue;
 
             if (test_case.skip) {
-              $('#summary').append('<li>Skipping test ' + test_case.name + 
-                ", because skip == true</li>");
+              summarize('Skipping test ' + test_case.name + 
+                ", because skip == true");
               continue;
             }
 
@@ -66,9 +70,19 @@ $(document).ready(function() {
               layout_engine.separation(function(a, b) { return 1; });
             }
             else if (test_case.gap == "spacing-0") {
+              if (test_compat) {
+                summarize("Skipping test " + test_case.name + 
+                  ", because existing D3 doesn't do spacing");
+                continue;
+              }
               layout_engine.spacing(function(a, b) { return 0; });
             }
             else if (test_case.gap == "spacing-custom") {
+              if (test_compat) {
+                summarize("Skipping test " + test_case.name + 
+                  ", because existing D3 doesn't do spacing");
+                continue;
+              }
               layout_engine.spacing(function(a, b) {
                 return a.parent == b.parent ? 
                   0 : layout_engine.rootXSize();
@@ -77,6 +91,11 @@ $(document).ready(function() {
 
             // sizing
             if (test_case.sizing == "node-size-function") {
+              if (test_compat) {
+                summarize("Skipping test " + test_case.name + 
+                  ", because existing D3 doesn't do nodeSize as a function");
+                continue;
+              }
               layout_engine.nodeSize(function(t) {
                 return [t.x_size, t.y_size];
               })
@@ -88,8 +107,7 @@ $(document).ready(function() {
               layout_engine.size([200, 100]);
             }
 
-            $('#summary').append('<li>Running test ' + test_case.name +
-              "</li>");
+            summarize('Running test ' + test_case.name);
             var tree = test_case.tree_json;
             var nodes = layout_engine.nodes(tree);
 
