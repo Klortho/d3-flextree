@@ -236,8 +236,7 @@ $(document).ready(function() {
       var nav;
       if (test_case_num < test_cases.length - 1) {
         var next_tc = test_cases[test_case_num + 1];
-        nav = "<a href='index.html?" + next_tc.name + "'>>> " + 
-              next_tc.name + " >></a>";
+        nav = "<a href='index.html?" + next_tc.name + "'>>> next</a>";
       }
       else {
         nav = "That's it!";

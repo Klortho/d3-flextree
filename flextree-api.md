@@ -1,14 +1,14 @@
 ***This is an edited copy of the [D3 tree layout API 
 page](https://github.com/mbostock/d3/wiki/Tree-Layout), updated to reflect the
-new "flextree" features.
+new "flextree" features.***
 
 ----
 
-> [Wiki](Home) ▸ [[API Reference]] ▸ [[Layouts]] ▸ [Hierarchy](Hierarchy-Layout) ▸ **Tree Layout**
+> [Wiki](https://github.com/mbostock/d3/wiki) ▸ [API Reference](https://github.com/mbostock/d3/wiki/API-Reference) ▸ [Layouts](https://github.com/mbostock/d3/wiki/Layouts) ▸ [Hierarchy](https://github.com/mbostock/d3/wiki/Hierarchy-Layout) ▸ **Tree Layout**
 
 The **tree** layout produces tidy node-link diagrams of trees using the [Reingold–Tilford “tidy” algorithm](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf). For example, a tree layout can be used to organize software classes in a package hierarchy:
 
-[![diagonal](diagonal.png)](http://mbostock.github.com/d3/ex/tree.html)
+[![diagonal](https://github.com/mbostock/d3/wiki/diagonal.png)](http://mbostock.github.com/d3/ex/tree.html)
 
 Like most other layouts, the object returned by d3.layout.tree is both an object and a function. That is: you can call the layout like any other function, and the layout has additional methods that change its behavior. Like other classes in D3, layouts follow the method chaining pattern where setter methods return the layout itself, allowing multiple setters to be invoked in a concise statement.
 
@@ -140,9 +140,13 @@ The size property is exclusive with [tree.nodeSize](#nodeSize); setting tree.siz
 
 <a name="nodeSize" href="#nodeSize">#</a> tree.<b>nodeSize</b>([<i>nodeSize</i>])
 
-If *nodeSize* is specified as a two-element array, sets a fixed size for each node as [x_size, y_size]. *nodeSize* can also be specified as a function that takes one argument (the node) and returns a two-element array. If *nodeSize* is not specified, returns the current node size, which defaults to null indicating that the layout is determined using the overall [tree.size](#size) property instead of using a fixed node size. The layout size is specified in *x* and *y*, but this is not limited screen coordinates and may represent an arbitrary coordinate system.
+If *nodeSize* is specified as a two-element array, sets a fixed size for each node as [x_size, y_size]. *nodeSize* can also be specified as a function that takes one argument (the node) and returns a two-element array. If *nodeSize* is not specified, returns the current node size, which defaults to null indicating that the layout is determined using the overall [tree.size](#size) property. The layout size is specified in *x* and *y*, but this is not limited screen coordinates and may represent an arbitrary coordinate system.
 
 The nodeSize property is exclusive with [tree.size](#size); setting tree.nodeSize sets tree.size to null.
+
+<a name="setNodeSizes" href="#setNodeSizes">#</a> tree.<b>setNodeSizes</b>([<i>setNodeSizes</i>])
+
+If *setNodeSizes* is specified as *true*, then the layout function will set the x_size and y_size attributes on every node in the tree. If *setNodeSizes* is not specified, this will return the current value, which defaults to *false*.
 
 <a name="sort" href="#sort">#</a> tree.<b>sort</b>([<i>comparator</i>])
 

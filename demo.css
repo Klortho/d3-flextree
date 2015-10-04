@@ -2,9 +2,6 @@
     overflow: auto;
     resize: both;
 }
-#nav {
-  float: right;
-}
 svg { 
   border: 1px solid black; 
   font: 10px sans-serif;
