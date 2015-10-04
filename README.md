@@ -64,7 +64,10 @@ gulp         # builds d3-flextree.js
 ```
 
 
-## References
+## Acknowledgements and references
+
+Many thanks to A.J. van der Ploeg, for making his code available on GitHub!
+
 
 ### Papers
 
