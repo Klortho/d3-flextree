@@ -64,7 +64,7 @@ gulp         # builds d3-flextree.js
 ```
 
 
-## Acknowledgements and references
+## Acknowledgements and links
 
 Many thanks to A.J. van der Ploeg, for making his code available on GitHub!
 
@@ -86,8 +86,10 @@ Many thanks to A.J. van der Ploeg, for making his code available on GitHub!
 
 * D3 [GitHub issue 1992 - Allow nodeSize for trees to be 
   dynamic](https://github.com/mbostock/d3/issues/1992).
-* [My post to the d3-js mailing list](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY)
-  (got no replies, sadly).
+* [D3 pull request #2571](https://github.com/mbostock/d3/pull/2571)
+* [Plugin wiki page](https://github.com/mbostock/d3/wiki/Plugins)
+* [My post to the d3-js mailing 
+  list](https://groups.google.com/forum/#!topic/d3-js/O4hHCS-XXqY).
 * Somebody else [asking for this 
   feature](https://groups.google.com/forum/?fromgroups=#!searchin/d3-js/tree/d3-js/BjCvUpbqfb4/_rO0QcaKiGMJ) 
   on the d3.js list.
