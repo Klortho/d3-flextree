@@ -198,6 +198,19 @@
     "sizing": "*special*",
     "gap": "spacing-custom"
   },
+  { "name": "grandkids1",
+    "description": "Layout bug - grandkids push leftmost uncle",
+    "tree": "grandkids1.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-0"
+  },
+  { "name": "grandkids2",
+    "description": "Layout bug - note the x-position of the uncle is the same as the leftmost grandkid",
+    "tree": "grandkids2.json",
+    "sizing": "node-size-function",
+    "gap": "spacing-0"
+  },
+
   { "name": "zombo",
     "description": "Zombo's tree.",
     "tree": "zombo.json",
