@@ -1,7 +1,7 @@
 {
   "name": "d3-flextree",
   "version": "1.0.0",
-  "main": "d3.flextree.js",
+  "main": "d3-flextree.js",
   "author": {
     "name": "Chris Maloney",
     "url": "http://chrismaloney.org"
@@ -20,13 +20,14 @@
     "plugin"
   ],
   "dependencies": {
-    "d3": "^3.5.6"
   },
   "devDependencies": {
+    "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
-    "gulp-uglify": "^1.2.0",
+    "gulp-rename": "^1.2.2",
     "gulp-run": "",
+    "gulp-uglify": "^1.2.0",
     "lazy": ""
   }
 }

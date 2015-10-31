@@ -1,5 +1,6 @@
 {
   "name": "d3-flextree",
+  "version": "1.0.0",
   "description": "An enhanced tree layout algorithm that allows variable node sizes.",
   "main": "d3-flextree.js",
   "authors": [
@@ -18,8 +19,11 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
+    "vendor",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "d3": "~3.5.6"
+  }
 }

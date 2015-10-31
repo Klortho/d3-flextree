@@ -1,19 +1,30 @@
-var gulp = require('gulp'),
+var concat = require('gulp-concat'),
+    del = require('del'),
+    gulp = require('gulp'),
+    rename = require('gulp-rename'),
+    run = require('gulp-run'),
     spawn = require('child_process').spawn,
-    run = require('gulp-run');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
+    uglify = require('gulp-uglify');
 
-var name = 'd3.flextree';
+var name = 'd3-flextree',
+    build = 'build';
 
+gulp.task('default', ['clean', 'make-module', 'js']);
 
-gulp.task('default', ['make-module'], function() {
+gulp.task('clean', function () {
+  return del([
+    build
+  ]);
+});
+
+gulp.task('js', function() {
   return gulp.src(name + '.js')
     .pipe(uglify())
-    .pipe(concat(name + '.min.js'))
-    .pipe(gulp.dest('./'));
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest(build));
 });
 
 gulp.task('make-module', [], function (cb) {
   run("node make-module.js").exec();
 });
+
