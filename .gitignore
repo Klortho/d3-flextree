@@ -1,4 +1,4 @@
 project.sublime-*
 node_modules
 vendor
-build
+dist
