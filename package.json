@@ -19,15 +19,17 @@
     "d3",
     "plugin"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
+    "gulp-exec": "^2.1.2",
+    "gulp-install": "^0.6.0",
     "gulp-rename": "^1.2.2",
     "gulp-run": "",
     "gulp-uglify": "^1.2.0",
-    "lazy": ""
+    "lazy": "",
+    "mkdir-p": "0.0.7"
   }
 }
