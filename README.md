@@ -73,6 +73,11 @@ gulp
 Then bring up index.html and/or test/index.html in a browser, and verify the
 results.
 
+## Packaging, etc.
+
+This is registered with bower. It will automatically pick up git tags from GitHub.
+
+
 
 ## Acknowledgements and links
 
