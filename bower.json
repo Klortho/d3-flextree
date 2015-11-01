@@ -1,7 +1,7 @@
 {
   "name": "d3-flextree",
   "description": "An enhanced tree layout algorithm that allows variable node sizes.",
-  "main": "d3-flextree.js",
+  "main": "dist/d3-flextree.js",
   "authors": [
     "Chris Maloney <voldrani@gmail.com>"
   ],
@@ -19,8 +19,7 @@
     "**/.*",
     "node_modules",
     "vendor",
-    "test",
-    "tests"
+    "test"
   ],
   "dependencies": {
     "d3": "~3.5.6"
