@@ -2,6 +2,7 @@ $(document).ready(function() {
 
   var engine_name = $('#layout-engine').text();
   var test_compat = ($('#test-set').text() == "backwards-compatible");
+  var last_results;
 
   function getJSON(url) {
     return fetch(url)
@@ -113,6 +114,9 @@ $(document).ready(function() {
 
             print_results(test_case, true, tree);
 
+            last_results = {
+              addr: [0],
+            };
             if (!tree_equals(tree, test_case.expected_json)) {
               fail(test_case.name + " failed: results != expected");
               print_results(test_case, false, test_case.expected_json);
@@ -135,28 +139,41 @@ $(document).ready(function() {
 
   }
 
-  function almost_equals(a, b) {
+  function almost_equals(a, b, label) {
     if (a == 0 && b == 0) return true;
-    return ( Math.abs((b-a) / (b+a)) < 0.000000000001 );
+    if (! ( Math.abs((b-a) / (b+a)) < 0.000000000001 ) ) {
+      last_results.found = a;
+      last_results.expected = b;
+      last_results.label = label;
+      return false;
+    }
+    return true;
   }
 
   function tree_equals(a, b) {
-    if (!almost_equals(a.x, b.x) || !almost_equals(a.y, b.y)) return false;
+    if (!almost_equals(a.x, b.x, "x") || !almost_equals(a.y, b.y, "y")) 
+      return false;
 
     var a_num_children = a.children ? a.children.length : 0;
     var b_num_children = b.children ? b.children.length : 0;
-    if (a_num_children != b_num_children) return false;
+    if (!almost_equals(a_num_children, b_num_children, "num_children")) 
+      return false;
     if (a_num_children > 0) {
-      if (a.children.length != b.children.length) return false;
       var i;
-      for (i = 0; i < a.children.length; ++i) {
+      for (i = 0; i < a_num_children; ++i) {
+        last_results.addr.push(i);
         if (!tree_equals(a.children[i], b.children[i])) return false;
+        last_results.addr.pop();
       }
     }
     return true;
   }
 
   function fail(e) {
-    alert("Failed: " + (typeof e == "string" ? e : e.stack));
+    alert("Failed: " + (typeof e == "string" ? e : e.stack) + "\n" +
+      "node address: " + last_results.addr.join(", ") + "\n" +
+      "found: " + last_results.found + "\n" +
+      "expected: " + last_results.expected + "\n" +
+      "label: " + last_results.label);
   }
 });
