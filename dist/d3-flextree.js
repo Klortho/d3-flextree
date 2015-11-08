@@ -404,5 +404,4 @@ function d3_layout_hierarchyLinks(nodes) {
   }));
 }
 
-
 })();

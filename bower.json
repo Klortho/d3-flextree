@@ -1,0 +1,27 @@
+{
+  "name": "d3-flextree",
+  "description": "An enhanced tree layout algorithm that allows variable node sizes.",
+  "main": "dist/d3-flextree.js",
+  "authors": [
+    "Chris Maloney <voldrani@gmail.com>"
+  ],
+  "license": "WTFPL",
+  "keywords": [
+    "visualization",
+    "2d",
+    "tree",
+    "d3",
+    "plugin"
+  ],
+  "homepage": "https://github.com/Klortho/d3-flextree",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "vendor",
+    "test"
+  ],
+  "dependencies": {
+    "d3": "~3.5.6"
+  }
+}

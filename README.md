@@ -48,20 +48,35 @@ I adapted that code into this flextree plugin as follows:
 
 ## Development
 
-To regenerate the plugin:
+Because I thought this might be considered as a replacement for the existing
+tree layout (it is backwards-compatible, and still runs in linear time), the
+code is in my fork of the D3 repository, [Klortho/d3](https://github.com/Klortho/d3),
+in the `flextree` branch, in two files:
+
+* src/layout/tree.js
+* test/layout/tree-test.js
+
+That fork is included here as a git submodule.
+
+To regenerate the plugin, you'll need Node.js and gulp. Follow these steps:
 
 ```
+# Install gulp globally, if you haven't already:
+npm install --global gulp
+
 git clone --recursive https://github.com/Klortho/d3-flextree.git
-npm install --global gulp   # if you haven't already
-
-cd d3-flextree/d3
+cd d3-flextree
 npm install
-make         # builds (forked) d3.js and d3.min.js
-
-cd ..
-npm install
-gulp         # builds d3-flextree.js
+gulp
 ```
+
+Then bring up index.html and/or test/index.html in a browser, and verify the
+results.
+
+## Packaging, etc.
+
+This is registered with bower. It will automatically pick up git tags from GitHub.
+
 
 
 ## Acknowledgements and links
