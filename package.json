@@ -1,6 +1,6 @@
 {
   "name": "d3-flextree",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/d3-flextree.js",
   "author": {
     "name": "Chris Maloney",
