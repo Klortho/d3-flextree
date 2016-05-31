@@ -1,3 +1,3 @@
-project.sublime-*
-node_modules
-vendor
+/project.sublime-*
+/node_modules/
+/dist/
