@@ -1,3 +1,6 @@
-/project.sublime-*
-/node_modules/
+.DS_Store
+/demo/bundle.*
 /dist/
+/.idea/
+/node_modules/
+npm-debug.log

@@ -1,0 +1,28 @@
+svg {
+  background: #F8F8F8;
+  margin: 5px;
+  border: 2px solid hsla(0, 100%, 0%, 0.2);
+  border-radius: 10px;
+}
+* {
+  vector-effect: non-scaling-stroke;
+}
+div.tree {
+  display: inline-block;
+}
+h2 {
+  margin: 10px 0 5px 5px;
+}
+h3 {
+  margin: 5px 0 0 15px;
+}
+rect.node {
+  fill: none;
+  stroke: hsla(0, 100%, 0%, 0.2);
+  stroke-width: 1;
+  stroke-dasharray: 5;
+}
+path {
+  fill: none;
+  stroke: #BBB;
+}

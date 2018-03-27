@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src='helpers/browser-test-browser-utils.js'></script>
+    <script src='../node_modules/d3-hierarchy/build/d3-hierarchy.js'></script>
+    <script src='../dist/d3-flextree.js'></script>
+    <script>
+      try {
+        assert.true(typeof d3 !== 'undefined', 'd3 should be a global');
+        assert.true('flextree' in d3, 'flextree should be a property of d3');
+        assert.true('hierarchy' in d3, 'hierarchy should be a property of d3');
+        const flextree = d3.flextree;
+        assert.true('hierarchy' in flextree,
+          'hierarchy should be a property of flextree');
+      }
+      catch(err) {
+        console.error('\n  message: ' + err.message, '\n  stack: ' + err.stack);
+      }
+      finally {
+        console.info('done');
+      }
+    </script>
+  </body>
+</html>
