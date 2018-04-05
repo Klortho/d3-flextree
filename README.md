@@ -1,5 +1,8 @@
 # D3 flextree plugin
 
+[![](https://data.jsdelivr.com/v1/package/npm/d3-flextree/badge)](https://www.jsdelivr.com/package/npm/d3-flextree)
+
+
 This plugin provides a more general version of the [D3 tree
 layout module](https://github.com/d3/d3-hierarchy#tree). Unlike
 `tree`, this plugin allows for nodes
@@ -21,6 +24,9 @@ If you use npm, `npm install d3-flextree`.
 Otherwise, download the [latest
 release](https://github.com/Klortho/d3-flextree/releases/latest).
 AMD, CommonJS, and browser environments are supported.
+
+Alternatively, you can use it straight from the jsdelivr CDN at
+[https://cdn.jsdelivr.net/npm/d3-flextree@2.0.0/build/d3-flextree.min.js](https://cdn.jsdelivr.net/npm/d3-flextree@2.0.0/build/d3-flextree.min.js). or [d3-flextree.js](https://cdn.jsdelivr.net/npm/d3-flextree@2.0.0/build/d3-flextree.js)
 
 In a Node environment:
 
