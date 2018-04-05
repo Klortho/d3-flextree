@@ -1,53 +1,67 @@
 {
   "name": "d3-flextree",
-  "version": "1.4.0",
-  "main": "dist/d3-flextree.js",
+  "version": "2.0.0",
+  "main": "build/d3-flextree.js",
+  "module": "index",
+  "jsnext:main": "index",
   "author": {
-    "name": "Chris Maloney"
+    "name": "Chris Maloney",
+    "url": "http://chrismaloney.org"
   },
   "description": "An tree layout plugin that allows for variable node sizes.",
+  "keywords": [
+    "d3",
+    "d3-module",
+    "layout",
+    "tree",
+    "hierarchy",
+    "d3-hierarchy",
+    "plugin",
+    "d3-plugin",
+    "infovis",
+    "visualization",
+    "2d"
+  ],
+  "homepage": "https://github.com/klortho/d3-flextree",
   "license": "WTFPL",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/klortho/d3-flextree.git"
+    "url": "https://github.com/klortho/d3-flextree.git"
   },
-  "keywords": [
-    "visualization",
-    "2d",
-    "tree",
-    "d3",
-    "d3-module",
-    "d3-hierarchy",
-    "d3-plugin",
-    "plugin"
-  ],
-  "homepage": "https://github.com/klortho/d3-flextree",
   "scripts": {
-    "clean": "rm -rf dist demo/bundle.*",
-    "build": "rollup -c",
-    "test": "ava",
-    "prepare": "npm-run-all --sequential clean build test"
+    "clean": "rm -rf _package.js build demo test",
+    "build:package": "json2module package.json > _package.js",
+    "build:demo": "rollup -c --environment BUILD:demo",
+    "build:dev": "rollup -c --environment BUILD:dev",
+    "build:prod": "rollup -c --environment BUILD:prod",
+    "build:test": "rollup -c --environment BUILD:test",
+    "rollup": "rollup -c",
+    "build": "npm-run-all build:package rollup",
+    "lint": "eslint index.js src",
+    "test:main": "node test/bundle.js",
+    "test:browser": "node test/browser-tests.js",
+    "test": "npm-run-all test:*",
+    "prepare": "npm-run-all clean build lint test"
   },
   "dependencies": {
     "d3-hierarchy": "^1.1.5"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015-rollup": "^3.0.0",
     "d3": "^4.13.0",
     "d3-selection-multi": "^1.0.1",
+    "eslint": "^4.19.1",
     "jsdom": "^11.6.2",
+    "json2module": "0.0.3",
     "npm-run-all": "^4.1.2",
+    "package-preamble": "^0.1.0",
     "rollup": "^0.55.3",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-node-resolve": "^3.0.2",
-    "rollup-plugin-uglify": "^3.0.0"
-  },
-  "ava": {
-    "files": [
-      "test/*-test.js"
-    ]
+    "rollup-plugin-uglify": "^3.0.0",
+    "uglify-es": "^3.3.9"
   }
 }

@@ -1,6 +1,8 @@
 .DS_Store
-/demo/bundle.*
-/dist/
+/build/
+/demo/
 /.idea/
 /node_modules/
 npm-debug.log
+/test/
+_package.js
