@@ -9,7 +9,8 @@ specs.forEach((spec, num) => spec.num = num);
 
 const content = select('#content');
 const options = urlOpts(document.location.href);
-const treeFilter = t => !('tree' in options) || options.tree === t.i;
+console.log('options: ', options);
+const treeFilter = tspec => !('tree' in options) || +options.tree === tspec.num;
 const results = [];
 
 const svg = {
@@ -20,12 +21,36 @@ const svg = {
 
 const minSize = (tree, xy) => tree.nodes.reduce(
   (min, n) => Math.min(min, n.data[xy === 'x' ? 0 : 1]), Infinity);
-const customSpacing = select('#custom-spacing');
+
+
+const customSpacing = (() => {
+  const button = select('#custom-spacing');
+  const btnElem = button.node();
+  const isChecked = () => btnElem.checked;
+  btnElem.addEventListener('click', () => {
+    button.checked = !isChecked();
+    renderAll();
+  });
+  return isChecked;
+})();
+
+const dumpExpected = node => {
+  const dumper = indent => node => {
+    const nextI = indent + '  ';
+    return `[ ${node.x}, ${node.y}${
+      node.noChildren ? ' '
+        : nextI + node.children.map(dumper(nextI)).join(nextI) + indent
+    }]`;
+  };
+  return dumper(',\n')(node);
+};
+
+
 // Set the x, y coordinates of a tree from the `expected` data
 const setCoords = (n, x, y, ...kidCoords) => {
   Object.assign(n, {x, y});
   (n.children || []).forEach((kid, i) => setCoords(kid, ...(kidCoords[i])));
-}
+};
 
 const renderAll = () => {
   content.node().innerHTML = '';
@@ -36,14 +61,14 @@ const renderAll = () => {
 
 const renderTree = spec => {
   content.append('h2').text(spec.num + '. ' + spec.desc);
-  const context = results[spec.num] = {};
+  const context = results[spec.num] = {spec};
 
   const layout = context.layout = flextree({
     children: d => d.slice(2),
     nodeSize: n => n.data.slice(0, 2),
   });
   const tree = context.tree = layout.hierarchy(spec.data);
-  if (customSpacing.node().checked)
+  if (customSpacing())
     layout.spacing((a, b) => 0.2 * minSize(tree, 'x') * a.path(b).length);
   tree.nodes.forEach((n, i) => {
     n.id = i;
@@ -54,11 +79,9 @@ const renderTree = spec => {
   layout(tree);
   drawTree('results', context);
 
-  if (!customSpacing.node().checked) {
-    setCoords(tree, ...spec.expected);
-    drawTree('expected', context);
-  }
-}
+  setCoords(tree, ...spec[customSpacing() ? 'customSpacing' : 'expected']);
+  drawTree('expected', context);
+};
 
 function drawTree(label, context) {
   const div = content.append('div').attr('class', 'tree');
@@ -72,14 +95,17 @@ function drawTree(label, context) {
 
   const {tree} = context;
   const extents = tree.extents;
-  const scale = context.scale = Math.min(width / (extents.right - extents.left),
-    height / extents.bottom);
-  const transX = -extents.left * scale;
+  const tw = extents.right - extents.left;
+  const scale = context.scale = Math.min(width / tw, height / extents.bottom);
+  const stw = tw * scale;
+  const transX = (stw >= width) ? -extents.left * scale :
+    (width + scale * (extents.right + extents.left)) / 2;
   context.drawing = svgElem.append('g')
     .attr('transform',
       `translate(${padding + transX} ${padding}) scale(${scale} ${scale})`);
 
   drawSubtree(tree, context);
+  console.log(context.spec.num + '. ' + context.spec.desc + '\n' + dumpExpected(tree));
 }
 
 function drawSubtree(node, context, parent=null) {
@@ -99,7 +125,6 @@ function drawSubtree(node, context, parent=null) {
   const paddingSide = minSize(tree, 'x') * 0.1;
   const paddingBottom = minSize(tree, 'y') * 0.2;
   const box = drawing.append('rect').attrs({
-    'class': 'inner-box',
     rx: 5 / scale,
     ry: 5 / scale,
     x: x - width / 2 + paddingSide,
@@ -107,9 +132,6 @@ function drawSubtree(node, context, parent=null) {
     width: width - 2 * paddingSide,
     height: height - paddingBottom,
     fill: `hsl(${node.hue}, 100%, 90%)`,
-  });
-  box.node().addEventListener('mouseover', function(evt) {
-    console.log(layout.dump(node));
   });
 
   drawing.append('text')
@@ -124,7 +146,7 @@ function drawSubtree(node, context, parent=null) {
       'font-family': 'sans-serif',
       'font-size': (12 / scale) + 'pt',
     })
-    .text(node.data.id);
+    .text(node.id);
 
   if (parent) {
     drawing.append('path')
@@ -136,13 +158,6 @@ function drawSubtree(node, context, parent=null) {
   for (const kid of (node.children || [])) drawSubtree(kid, context, node);
 }
 
-/*
-button.addEventListener('click', () => {
-  customSpacing = !customSpacing;
-  button.textContent = customSpacing ? 'on' : 'off';
-  renderAll();
-});
-*/
 renderAll();
 
 export default {
