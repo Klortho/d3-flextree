@@ -44,7 +44,7 @@ const configs = {
   demo: {
     input: 'src/demo/script.js',
     output: {
-      name: 'v',
+      name: 'demo',
       file: 'demo/bundle.js',
       format: 'umd',
       sourcemap: true,

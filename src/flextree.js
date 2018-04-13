@@ -46,6 +46,10 @@ export default function flextree(options) {
       get bottom() { return this.y + this.ySize; }
       get left() { return this.x - this.xSize / 2; }
       get right() { return this.x + this.xSize / 2; }
+      get root() {
+        const ancs = this.ancestors();
+        return ancs[ancs.length - 1];
+      }
       get numChildren() {
         return this.hasChildren ? this.children.length : 0;
       }
@@ -134,6 +138,7 @@ export default function flextree(options) {
     return _wrap(treeData, null);
   }
 
+
   Object.assign(layout, {
     nodeSize(arg) {
       return arguments.length ? (opts.nodeSize = arg, layout) : opts.nodeSize;
@@ -150,16 +155,17 @@ export default function flextree(options) {
     },
     dump(tree) {
       const nodeSize = accessor('nodeSize');
-      const dumpNode = i0 => node => {
-        const i1 = i0 + '  ', i2 = i0 + '    ';
+      const _dump = i0 => node => {
+        const i1 = i0 + '  ';
+        const i2 = i0 + '    ';
         const {x, y} = node;
         const size = nodeSize(node);
         const kids = (node.children || []);
-        const kidDumps = (kids.length === 0) ? ' ' :
-          `,${i1}children: [${i2}${kids.map(dumpNode(i2)).join(i2)}${i1}],${i0}`;
-        return `{ size: [${size.join(', ')}],${i1}x: ${x}, y: ${y}${kidDumps}},`;
+        const kdumps = (kids.length === 0) ? ' ' :
+          `,${i1}children: [${i2}${kids.map(_dump(i2)).join(i2)}${i1}],${i0}`;
+        return `{ size: [${size.join(', ')}],${i1}x: ${x}, y: ${y}${kdumps}},`;
       };
-      return dumpNode('\n')(tree);
+      return _dump('\n')(tree);
     },
   });
   return layout;

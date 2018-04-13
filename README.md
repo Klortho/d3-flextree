@@ -6,14 +6,14 @@
 This plugin provides a more general version of the [D3 tree
 layout module](https://github.com/d3/d3-hierarchy#tree). Unlike
 `tree`, this plugin allows for nodes
-of variable sizes; like the `tree`, the algorithm is fast, running in
+of variable sizes; like `tree`, the algorithm is fast, running in
 *O(n)* time.
 
-See [this demo](https://klortho.github.io/d3-flextree/).
+See [the demo](https://klortho.github.io/d3-flextree/).
 
 `flextree()` is a factory function that returns a ***layout*** instance. A
-layout is a function that computes the positions of nodes in a
-tree diagram. Properties attached to the layout control various aspects
+*layout* is a function that computes the positions of nodes in a
+tree diagram. Properties attached to the layout control various parameters
 of the algorithm.
 
 [Try d3-flextree in your browser](https://npm.runkit.com/d3-flextree).
