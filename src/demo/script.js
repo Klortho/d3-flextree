@@ -9,7 +9,6 @@ specs.forEach((spec, num) => spec.num = num);
 
 const content = select('#content');
 const options = urlOpts(document.location.href);
-console.log('options: ', options);
 const treeFilter = tspec => !('tree' in options) || +options.tree === tspec.num;
 const results = [];
 
@@ -20,7 +19,7 @@ const svg = {
 };
 
 const minSize = (tree, xy) => tree.nodes.reduce(
-  (min, n) => Math.min(min, n.data[xy === 'x' ? 0 : 1]), Infinity);
+  (min, n) => Math.min(min, n.data[xy]), Infinity);
 
 
 const customSpacing = (() => {
@@ -34,6 +33,7 @@ const customSpacing = (() => {
   return isChecked;
 })();
 
+/* eslint-disable no-unused-vars */
 const dumpExpected = node => {
   const dumper = indent => node => {
     const nextI = indent + '  ';
@@ -44,7 +44,7 @@ const dumpExpected = node => {
   };
   return dumper(',\n')(node);
 };
-
+/* eslint-enable no-unused-vars */
 
 // Set the x, y coordinates of a tree from the `expected` data
 const setCoords = (n, x, y, ...kidCoords) => {
@@ -58,7 +58,6 @@ const renderAll = () => {
   specs.filter(treeFilter).forEach(renderTree);
 };
 
-
 const renderTree = spec => {
   content.append('h2').text(spec.num + '. ' + spec.desc);
   const context = results[spec.num] = {spec};
@@ -69,7 +68,7 @@ const renderTree = spec => {
   });
   const tree = context.tree = layout.hierarchy(spec.data);
   if (customSpacing())
-    layout.spacing((a, b) => 0.2 * minSize(tree, 'x') * a.path(b).length);
+    layout.spacing((a, b) => 0.2 * minSize(tree, 0) * a.path(b).length);
   tree.nodes.forEach((n, i) => {
     n.id = i;
     n.hue = Math.floor(Math.random() * 360);
@@ -103,13 +102,11 @@ function drawTree(label, context) {
   context.drawing = svgElem.append('g')
     .attr('transform',
       `translate(${padding + transX} ${padding}) scale(${scale} ${scale})`);
-
   drawSubtree(tree, context);
-  console.log(context.spec.num + '. ' + context.spec.desc + '\n' + dumpExpected(tree));
 }
 
 function drawSubtree(node, context, parent=null) {
-  const {layout, tree, drawing, scale} = context;
+  const {tree, drawing, scale} = context;
   const [width, height] = node.size;
   const {x, y} = node;
   drawing.append('rect').attrs({
@@ -122,9 +119,9 @@ function drawSubtree(node, context, parent=null) {
     height,
   });
 
-  const paddingSide = minSize(tree, 'x') * 0.1;
-  const paddingBottom = minSize(tree, 'y') * 0.2;
-  const box = drawing.append('rect').attrs({
+  const paddingSide = minSize(tree, 0) * 0.1;
+  const paddingBottom = minSize(tree, 1) * 0.2;
+  drawing.append('rect').attrs({
     rx: 5 / scale,
     ry: 5 / scale,
     x: x - width / 2 + paddingSide,
