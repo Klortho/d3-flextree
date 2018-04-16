@@ -7,6 +7,8 @@ module](https://github.com/d3/d3-hierarchy#tree). Unlike `tree`, this plugin
 allows for nodes of variable sizes; like `tree`, the algorithm is fast, running
 in *O(n)* time.
 
+![](./sample-tree.svg)
+
 See [the demo](https://klortho.github.io/d3-flextree/).
 
 `flextree()` is a factory function that returns a ***layout*** instance. A
@@ -25,6 +27,11 @@ AMD, CommonJS, and browser environments are supported.
 
 Alternatively, you can use it straight from the jsdelivr CDN at
 [https://cdn.jsdelivr.net/npm/d3-flextree@2.0.0/build/d3-flextree.min.js](https://cdn.jsdelivr.net/npm/d3-flextree@2.0.0/build/d3-flextree.min.js). or [d3-flextree.js](https://cdn.jsdelivr.net/npm/d3-flextree@2.0.0/build/d3-flextree.js)
+
+## Overview
+
+Computing the layout of a tree data structure involves two steps: first,
+create a *hierarchy* from the data, and second, invoke the layout function.
 
 In a Node environment:
 
@@ -57,11 +64,6 @@ if necessary):
 </script>
 ```
 
-## Overview
-
-Computing the layout of a tree data structure involves two steps: first,
-create a *hierarchy* from the data, and second, invoke the layout function.
-
 When creating the hierarchy, the library uses the `children` accessor
 function to determine the children of a data node. When the layout is
 computed, two other accessor functions are used: `nodeSize` (to get the
@@ -92,7 +94,7 @@ const data = [
 ];
 const layout = flextree({
   children: data => {
-    const kd = d.slice(2);
+    const kd = data.slice(2);
     return kd.length ? kd : null;
   },
   nodeSize: node => node.data.slice(0, 2),
