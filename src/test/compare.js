@@ -54,7 +54,6 @@ export const deepCompare = compare => {
     }
     return mismatches.length === 0 ? true : mismatches;
   };
-
   return _dc;
 };
 /* eslint-enable complexity */

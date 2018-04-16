@@ -3,10 +3,8 @@ import assert from './assert';
 const defaults = {
   verbose: false,
   failFast: false,
-  /* eslint-disable no-console */
-  log: console.log.bind(console),
-  error: console.error.bind(console),
-  /* eslint-disable no-console */
+  log: console.log.bind(console),  // eslint-disable-line no-console
+  error: console.error.bind(console),  // eslint-disable-line no-console
 };
 const tester = opts => {
   const options = Object.assign({}, defaults, opts);
@@ -36,7 +34,7 @@ const tester = opts => {
       else error(`Failed ${failedCount} of ${results.length}`);
     }
     if (typeof process === 'undefined') {
-      console.info(failedCount);
+      console.info(failedCount);  // eslint-disable-line no-console
     }
     else {
       process.exit(failedCount);

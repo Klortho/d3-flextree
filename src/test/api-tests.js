@@ -1,6 +1,6 @@
 import {flextree} from '../../index.js';
 import {hierarchy} from 'd3-hierarchy';
-import {version} from '../../_package.js';
+import {version} from '../../package.json';
 
 // Several different ways of representing the same tree.
 export const treeData = {
@@ -137,9 +137,8 @@ const getName = node => node.data.name;
 const ref = eNode => aNode => getName(aNode) === getName(eNode);
 
 const tests = test => {
-  /* eslint-disable no-console */
+  // eslint-disable-next-line no-console
   const log = test.verbose ? console.log.bind(console) : () => {};
-  /* eslint-enable no-console */
 
   test('exports', t => {
     t.is(typeof flextree, 'function');
@@ -422,9 +421,9 @@ const tests = test => {
         return kd.length ? kd : null;
       });
     const tree = layout.hierarchy(treeData.allCustom);
-    t.true(tree instanceof flextree.hierarchy);
+    t.true(tree instanceof hierarchy);
     const copy = tree.copy();
-    t.true(copy instanceof flextree.hierarchy);
+    t.true(copy instanceof hierarchy);
     t.is(tree.children[0].data, copy.children[0].data);
 
     layout(tree);

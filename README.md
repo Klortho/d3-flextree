@@ -2,12 +2,10 @@
 
 [![](https://data.jsdelivr.com/v1/package/npm/d3-flextree/badge)](https://www.jsdelivr.com/package/npm/d3-flextree)
 
-
-This plugin provides a more general version of the [D3 tree
-layout module](https://github.com/d3/d3-hierarchy#tree). Unlike
-`tree`, this plugin allows for nodes
-of variable sizes; like `tree`, the algorithm is fast, running in
-*O(n)* time.
+This plugin provides a more general version of the [D3 tree layout
+module](https://github.com/d3/d3-hierarchy#tree). Unlike `tree`, this plugin
+allows for nodes of variable sizes; like `tree`, the algorithm is fast, running
+in *O(n)* time.
 
 See [the demo](https://klortho.github.io/d3-flextree/).
 

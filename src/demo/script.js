@@ -33,8 +33,7 @@ const customSpacing = (() => {
   return isChecked;
 })();
 
-/* eslint-disable no-unused-vars */
-const dumpExpected = node => {
+const dumpExpected = node => {  // eslint-disable-line no-unused-vars
   const dumper = indent => node => {
     const nextI = indent + '  ';
     return `[ ${node.x}, ${node.y}${
@@ -44,7 +43,6 @@ const dumpExpected = node => {
   };
   return dumper(',\n')(node);
 };
-/* eslint-enable no-unused-vars */
 
 // Set the x, y coordinates of a tree from the `expected` data
 const setCoords = (n, x, y, ...kidCoords) => {

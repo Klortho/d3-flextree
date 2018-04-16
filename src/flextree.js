@@ -1,6 +1,5 @@
 import {hierarchy} from 'd3-hierarchy';
-import {version} from '../_package.js';
-const Node = hierarchy.prototype.constructor;
+import {version} from '../package.json';
 
 const defaults = Object.freeze({
   children: data => data.children,
@@ -28,7 +27,7 @@ export default function flextree(options) {
   function getFlexNode() {
     const nodeSize = accessor('nodeSize');
     const spacing = accessor('spacing');
-    return class FlexNode extends Node {
+    return class FlexNode extends hierarchy.prototype.constructor {
       constructor(data) {
         super(data);
       }
@@ -171,7 +170,6 @@ export default function flextree(options) {
   return layout;
 }
 flextree.version = version;
-flextree.hierarchy = hierarchy;
 
 const layoutChildren = (w, y = 0) => {
   w.y = y;

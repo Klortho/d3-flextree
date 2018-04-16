@@ -3,7 +3,7 @@ import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
 import commonjs from 'rollup-plugin-commonjs';
 import copy from 'rollup-plugin-copy';
-
+import json from 'rollup-plugin-json';
 
 const configs = {
   dev: {
@@ -16,6 +16,10 @@ const configs = {
       sourcemap: true,
     },
     plugins: [
+      json({
+        preferConst: true,
+        indent: '  ',
+      }),
       resolve(),
       commonjs(),
       babel({
@@ -33,6 +37,10 @@ const configs = {
       sourcemap: true,
     },
     plugins: [
+      json({
+        preferConst: true,
+        indent: '  ',
+      }),
       resolve(),
       commonjs(),
       uglify(),
@@ -49,7 +57,16 @@ const configs = {
       format: 'umd',
       sourcemap: true,
     },
+    onwarn(warning, warn) {
+      if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+      warn(warning);
+    },
     plugins: [
+      // FIXME: do we need this here?
+      json({
+        preferConst: true,
+        indent: '  ',
+      }),
       resolve(),
       commonjs(),
       babel(),
@@ -69,6 +86,10 @@ const configs = {
       sourcemap: true,
     },
     plugins: [
+      json({
+        preferConst: true,
+        indent: '  ',
+      }),
       resolve(),
       commonjs(),
       copy({

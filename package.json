@@ -1,6 +1,6 @@
 {
   "name": "d3-flextree",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "main": "build/d3-flextree.js",
   "module": "index",
   "jsnext:main": "index",
@@ -8,7 +8,7 @@
     "name": "Chris Maloney",
     "url": "http://chrismaloney.org"
   },
-  "description": "An tree layout plugin that allows for variable node sizes.",
+  "description": "Flexible tree layout algorithm that allows for variable node sizes.",
   "keywords": [
     "d3",
     "d3-module",
@@ -29,14 +29,12 @@
     "url": "https://github.com/klortho/d3-flextree.git"
   },
   "scripts": {
-    "clean": "rm -rf _package.js build demo test",
-    "build:package": "json2module package.json > _package.js",
+    "clean": "rm -rf build demo test",
     "build:demo": "rollup -c --environment BUILD:demo",
     "build:dev": "rollup -c --environment BUILD:dev",
     "build:prod": "rollup -c --environment BUILD:prod",
     "build:test": "rollup -c --environment BUILD:test",
-    "rollup": "rollup -c",
-    "build": "npm-run-all build:package rollup",
+    "build": "rollup -c",
     "lint": "eslint index.js src",
     "test:main": "node test/bundle.js",
     "test:browser": "node test/browser-tests.js",
@@ -44,8 +42,7 @@
     "prepare": "npm-run-all clean build lint test"
   },
   "dependencies": {
-    "d3-hierarchy": "^1.1.5",
-    "requirejs": "^2.3.5"
+    "d3-hierarchy": "^1.1.5"
   },
   "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
@@ -54,13 +51,12 @@
     "d3-selection-multi": "^1.0.1",
     "eslint": "^4.19.1",
     "jsdom": "^11.6.2",
-    "json2module": "0.0.3",
     "npm-run-all": "^4.1.2",
-    "package-preamble": "^0.1.0",
     "rollup": "^0.55.3",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-uglify": "^3.0.0",
     "uglify-es": "^3.3.9"
