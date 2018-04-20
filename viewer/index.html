@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src='../node_modules/d3/build/d3.js'></script>
+    <script src='../node_modules/d3-selection-multi/build/d3-selection-multi.js'></script>
+    <script src='../build/d3-flextree.js'></script>
+    <script src='./utils.js'></script>
+    <script src='./random-tree.js'></script>
+    <script src='./viewer.js'></script>
+  </head>
+  <body>
+    <h1>flextree viewer</h1>
+    <div id='content'></div>
+
+    <script>
+      const treeData = RandomTree();
+
+      FlextreeViewer(treeData, {
+        //spacing: node => 10,
+      });
+    </script>
+  </body>
+</html>
