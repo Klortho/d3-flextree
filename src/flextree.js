@@ -1,6 +1,7 @@
 import {hierarchy} from 'd3-hierarchy';
-import {version} from '../package.json';
+import packageInfo from '../package.json';
 
+const {version} = packageInfo 
 const defaults = Object.freeze({
   children: data => data.children,
   nodeSize: node => node.data.size,
