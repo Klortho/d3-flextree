@@ -2,7 +2,7 @@ import {flextree} from '../../index.js';
 import {hierarchy} from 'd3-hierarchy';
 import packageInfo from '../../package.json';
 
-const {version} = packageInfo
+const {version} = packageInfo;
 // Several different ways of representing the same tree.
 export const treeData = {
   default: {
