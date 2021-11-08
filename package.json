@@ -1,6 +1,6 @@
 {
   "name": "d3-flextree",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "main": "build/d3-flextree.js",
   "module": "index",
   "jsnext:main": "index",
