@@ -50,7 +50,7 @@
     "d3": "^4.13.0",
     "d3-selection-multi": "^1.0.1",
     "eslint": "^4.19.1",
-    "jsdom": "^11.6.2",
+    "jsdom": "^16.5.0",
     "npm-run-all": "^4.1.2",
     "rollup": "^0.55.3",
     "rollup-plugin-babel": "^2.7.1",
