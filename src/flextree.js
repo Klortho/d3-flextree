@@ -5,6 +5,7 @@ const {version} = packageInfo;
 const defaults = Object.freeze({
   children: data => data.children,
   nodeSize: node => node.data.size,
+  rootBetweenChildren: true,
   spacing: 0,
 });
 
@@ -28,6 +29,7 @@ export default function flextree(options) {
   function getFlexNode() {
     const nodeSize = accessor('nodeSize');
     const spacing = accessor('spacing');
+    const rootBetweenChildren = accessor('rootBetweenChildren');
     return class FlexNode extends hierarchy.prototype.constructor {
       constructor(data) {
         super(data);
@@ -46,6 +48,7 @@ export default function flextree(options) {
       get bottom() { return this.y + this.ySize; }
       get left() { return this.x - this.xSize / 2; }
       get right() { return this.x + this.xSize / 2; }
+      get rootBetweenChildren() { return rootBetweenChildren(); }
       get root() {
         const ancs = this.ancestors();
         return ancs[ancs.length - 1];
@@ -89,6 +92,7 @@ export default function flextree(options) {
     const FlexNode = getFlexNode();
     const nodeSize = accessor('nodeSize');
     const spacing = accessor('spacing');
+    const rootBetweenChildren = accessor('rootBetweenChildren');
     return class extends FlexNode {
       constructor(data) {
         super(data);
@@ -105,6 +109,7 @@ export default function flextree(options) {
       set x(v) { this.data.x = v; }
       get y() { return this.data.y; }
       set y(v) { this.data.y = v; }
+      get rootBetweenChildren() { return rootBetweenChildren(); }
       update() {
         layoutChildren(this);
         resolveX(this);
@@ -326,8 +331,9 @@ const positionRoot = w => {
   if (w.hasChildren) {
     const k0 = w.firstChild;
     const kf = w.lastChild;
-    const prelim = (k0.prelim + k0.relX - k0.xSize / 2 +
-      kf.relX + kf.prelim + kf.xSize / 2 ) / 2;
+    const prelim = w.rootBetweenChildren
+      ? (k0.prelim + k0.relX - k0.xSize / 2 + kf.relX + kf.prelim + kf.xSize / 2 ) / 2
+      : 0;
     Object.assign(w, {
       prelim,
       lExt: k0.lExt, lExtRelX: k0.lExtRelX,
