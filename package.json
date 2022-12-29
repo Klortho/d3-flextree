@@ -53,7 +53,7 @@
     "jsdom": "^11.6.2",
     "npm-run-all": "^4.1.2",
     "rollup": "^0.55.3",
-    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-json": "^2.3.0",
